@@ -2,7 +2,7 @@ from torch_geometric.nn.models import GIN
 import torch
 import torch.nn.functional as F
 from graph import *
-from bert_embeddings import *
+from node_embeddings import *
 
 class GraphDataset(torch.utils.data.Dataset):
     def __init__(self, directory_name=False,save=False, load=False):

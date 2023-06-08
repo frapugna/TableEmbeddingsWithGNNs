@@ -4,18 +4,15 @@ import re
 import nltk
 from nltk.corpus import stopwords
 import math
-from bert_embeddings import *
+from node_embeddings import *
 import time
 """
     Assumptions:
-    - the entire graph can fit in memory
-    - there are not 2 tables with the same name and if 
+    - all the graphs can fit in memory
     - all the columns of the dataframe have a string as identifier
     - all the columns inside the same dataframe have different names
     - the graph is undirected and unweighted
 """
-
-
 
 def isNaN(num):
     return num != num
@@ -138,7 +135,7 @@ class Graph:
         out = torch.cat((out, embeddings), dim=0)
         return out
 
-    def __init__(self,  df, table_name, bert_embedding_generator, preprocess_string_token, emb_size=768, link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
+    def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token, emb_size=768, link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
                   number_preprocess_operations = ['cast_to_float', 'discretize_strict']):
         """
             Desc: a dataframe will be processed to generate nodes and edges to add to the graph
@@ -173,7 +170,7 @@ class Graph:
 
         self.columns_rows_to_values = [[] for _ in range(n_columns+n_rows)]  #contains for every column and row the list of the indexes of the associted values 
         column_indexes = [i for i in range(n_columns)]
-        
+        value_to_index = {}
         values_count = 0
         #Tuple and token node
         for i in range(df.shape[0]):
@@ -202,18 +199,21 @@ class Graph:
                 else:
                     raise Exception(f'The token {t} is of type {type(t)} and it is not supported')
                 sentence = ' '.join(token_list[0:4])
-                
-                bert_embedding_generator(sentence)
+                try:
+                    value_index = value_to_index[sentence]
+                except:  
+                    embedding_buffer(sentence)
+                    value_index = self.__get_next_index('value')
+                    self.__add_value_to_index(values_count, j, row_index)
+                    values_count += 1
+                    value_to_index[sentence] = value_index
 
-                value_index = self.__get_next_index('value')
-                self.__add_value_to_index(values_count, j, row_index)
-                values_count += 1
                 if link_tuple_token:
                     self.__add_edge(value_index, row_index)
                 if link_token_attribute:
                     self.__add_edge(value_index, column_indexes[j])
         
-        value_embeddings = bert_embedding_generator.pop_embeddings()
+        value_embeddings = embedding_buffer.pop_embeddings()
         self.X = self.__generate_feature_matrix(value_embeddings)
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.edges = torch.tensor(self.edges, dtype=torch.long).to(device=device)
@@ -222,15 +222,15 @@ if __name__ == '__main__':
     df1 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\testAB.csv")
     #df = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\walmart_amazon-tableB.csv")
     df2 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\fodors_zagats-master.csv")
-    bert_embedding_generator = Bert_Embedding_Buffer()
+    embedding_buffer = Bert_Embedding_Buffer()
     string_token_preprocessor = String_token_preprocessor()
     print('Graph generation starts')
     start = time.time()
     gl = Graph_list()
 
-    g1 = Graph(df1, 'Table1', bert_embedding_generator, string_token_preprocessor)
+    g1 = Graph(df1, 'Table1', embedding_buffer, string_token_preprocessor)
     gl.add_item(g1)
-    g2 = Graph(df2, 'Table2', bert_embedding_generator, string_token_preprocessor)
+    g2 = Graph(df2, 'Table2', embedding_buffer, string_token_preprocessor)
     gl.add_item(g2)
     gl.save(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Tests")
     gl2 = Graph_list(directory_name=r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Tests")
