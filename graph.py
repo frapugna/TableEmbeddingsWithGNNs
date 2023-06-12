@@ -136,8 +136,8 @@ class Graph:
         out = torch.cat((out, embeddings), dim=0)
         return out
 
-    def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token, emb_size=768, token_length_limit=20,link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
-                  number_preprocess_operations = ['cast_to_float', 'discretize_strict']):
+    def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token,  emb_size=768, token_length_limit=20,link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
+                  number_preprocess_operations = ['cast_to_float', 'discretize_strict'], verbose=True):
         """
             Desc: a dataframe will be processed to generate nodes and edges to add to the graph
             Params:
@@ -176,7 +176,7 @@ class Graph:
         #Tuple and token node
         for i in range(df.shape[0]):
             row_index = self.__get_next_index('row')
-            if i % 100 == 0:
+            if (i % 100 == 0) and verbose:
                 print(f'Row: {i}/{n_rows}')
             if link_tuple_attribute:
                 for id in column_indexes:
@@ -199,7 +199,7 @@ class Graph:
                         continue
                 else:
                     raise Exception(f'The token {t} is of type {type(t)} and it is not supported')
-                sentence = ' '.join(token_list[0:token_length_limit])
+                sentence = ' '.join(token_list)
                 try:
                     value_index = value_to_index[sentence]
                 except:  
@@ -220,30 +220,30 @@ class Graph:
         self.edges = torch.tensor(self.edges, dtype=torch.long).to(device=device)
     
 if __name__ == '__main__':
-    df1 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\testAB.csv")
-    df2 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\walmart_amazon-tableB.csv")
-    df3 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\fodors_zagats-master.csv")
-    #embedding_buffer = FasttextEmbeddingBuffer()
-    embedding_buffer = Bert_Embedding_Buffer()
+    df1 = pd.read_csv(r"Datasets/testAB.csv")
+    df2 = pd.read_csv(r"/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/Datasets/fodors_zagats-master.csv") 
+    df3 = pd.read_csv(r"Datasets/walmart_amazon-tableB.csv") 
+    embedding_buffer = FasttextEmbeddingBuffer()
+    #embedding_buffer = Bert_Embedding_Buffer()
     string_token_preprocessor = String_token_preprocessor()
     print('Graph generation starts')
     
     gl = Graph_list()
     
     start = time.time()
-    g1 = Graph(df1, 'Table1', embedding_buffer, string_token_preprocessor)
+    g1 = Graph(df1, 'Table1', embedding_buffer, string_token_preprocessor, verbose=False,token_length_limit=None)
     end = time.time()
     print(f'First graph generated in {end-start}s')
     gl.add_item(g1)
     
     start = time.time()
-    g2 = Graph(df2, 'Table2', embedding_buffer, string_token_preprocessor)
+    g2 = Graph(df2, 'Table2', embedding_buffer, string_token_preprocessor, verbose=False, token_length_limit=None)
     end = time.time()
     print(f'second graph generated in {end-start}s')
     gl.add_item(g2)
 
     start = time.time()
-    g3 = Graph(df3, 'Table3', embedding_buffer, string_token_preprocessor)
+    g3 = Graph(df3, 'Table3', embedding_buffer, string_token_preprocessor, verbose=False,token_length_limit=None)
     end = time.time()
     print(f'third graph generated in {end-start}s')
     gl.add(g3)

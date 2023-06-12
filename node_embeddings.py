@@ -113,7 +113,7 @@ class Bert_Embedding_Buffer(Embedding_buffer):
         new_emb = self.bert_embedding_generator(self.buffer)
         self.__add_new_emb(new_emb)
         self.buffer = []
-        self.n_embeddings = 0
+        self.n_sentences = 0
         
 
     def __call__(self, sentence):
