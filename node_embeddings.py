@@ -1,6 +1,7 @@
 import torch
 from transformers import BertModel, BertTokenizer
 from abc import ABC, abstractmethod
+import gensim.downloader as api
 
 class Embedding_buffer(ABC):
     @abstractmethod
@@ -10,10 +11,6 @@ class Embedding_buffer(ABC):
     @abstractmethod
     def pop_embeddings(self):
         return NotImplemented
-    
-class w2v_embedding_buffer(Embedding_buffer):
-    def __init__(self):
-        pass
 
 class Bert_Embedding_Generator:
     def __init__(self, output_hidden_states=False, bert_lm_name='bert-base-uncased'):
@@ -49,6 +46,49 @@ class Bert_Embedding_Generator:
         else:
             return sentence_embedding
 
+class FasttextEmbeddingBuffer(Embedding_buffer):
+    def __init__(self):
+        print('Loading fasttext model, it will take 2/3 minutes')
+        self.model = api.load('fasttext-wiki-news-subwords-300')
+        print('Model loaded')
+        self.n_embeddings = 0
+        self.embeddings = None
+
+    def __get_embedding(self, word):
+        return self.model[word]
+
+    def __call__(self, sentence):
+        word_list = sentence.split()
+        vector = None
+        n_words = 0
+        for w in word_list:
+            try:
+                emb = torch.tensor(self.__get_embedding(w))
+                try:
+                    vector += emb
+                    n_words += 1
+                except:
+                    vector = emb
+                    n_words += 1
+            except:
+                pass
+        if vector == None:
+            vector = torch.rand(300)
+        else:
+            vector =  vector / n_words
+
+        self.n_embeddings += 1
+        try:
+            self.embeddings = torch.cat((self.embeddings, vector.unsqueeze(0)), dim=0)
+        except TypeError:
+            self.embeddings = vector.unsqueeze(0) 
+
+    def pop_embeddings(self):
+        out = self.embeddings
+        self.embeddings = None
+        self.n_embeddings = 0
+        return out
+    
 class Bert_Embedding_Buffer(Embedding_buffer):
     def __init__(self, buffer_size=512, output_hidden_states=False):
         self.bert_embedding_generator = Bert_Embedding_Generator(output_hidden_states=output_hidden_states)
@@ -64,13 +104,16 @@ class Bert_Embedding_Buffer(Embedding_buffer):
         if self.embeddings == None:
             self.embeddings = new_emb
         else:
-            self.embeddings = torch.cat((self.embeddings, new_emb), dim=0)
+            try:
+                self.embeddings = torch.cat((self.embeddings, new_emb), dim=0)
+            except:
+                self.embeddings = torch.cat((self.embeddings, new_emb.unsqueeze(0)), dim=0)
 
     def __process_buffer(self):
         new_emb = self.bert_embedding_generator(self.buffer)
         self.__add_new_emb(new_emb)
         self.buffer = []
-        self.n_sentences = 0
+        self.n_embeddings = 0
         
 
     def __call__(self, sentence):
@@ -88,6 +131,15 @@ class Bert_Embedding_Buffer(Embedding_buffer):
         return out
         
 if __name__ == '__main__':
+    # model = FastText(size=100, window=5, min_count=1)
+    # model.build_vocab(sentences=common_texts)
+    # model.train(sentences=common_texts, total_examples=len(common_texts), epochs=10)
+    print(api.info()["models"])
+    model = api.load('fasttext-wiki-news-subwords-300')
+    print('Model loaded')
+    print(model['cat'])
+
+if __name__ == '__main_':
     s1 = 'i gatti sono animali'
     s2 = 'i cani sono animali'
     s3 = 'cats are animals'

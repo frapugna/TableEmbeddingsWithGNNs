@@ -43,7 +43,7 @@ class String_token_preprocessor:
         nltk.download('stopwords')
         self.stopwords = stopwords.words(language)
 
-    def __call__(self, s, operations=['lowercase', 'split', 'remove_stop_words']):
+    def __call__(self, s, token_length_limit=None,operations=['lowercase', 'split', 'remove_stop_words']):
         out = s
         if len(operations) == 0:
             return [out]
@@ -53,7 +53,8 @@ class String_token_preprocessor:
 
         if 'split' in operations:
             out = re.split(' |_|\|', out)
-        
+        if token_length_limit:
+            out = out[0:token_length_limit]
         if 'remove_stop_words' in operations:
             out = [t for t in out if not(t in self.stopwords)]
 
@@ -135,7 +136,7 @@ class Graph:
         out = torch.cat((out, embeddings), dim=0)
         return out
 
-    def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token, emb_size=768, link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
+    def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token, emb_size=768, token_length_limit=20,link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
                   number_preprocess_operations = ['cast_to_float', 'discretize_strict']):
         """
             Desc: a dataframe will be processed to generate nodes and edges to add to the graph
@@ -187,7 +188,7 @@ class Graph:
                     continue
 
                 if isinstance(t, str) and not(is_float(t)):
-                    token_list = preprocess_string_token(t, operations=string_preprocess_operations)
+                    token_list = preprocess_string_token(t, token_length_limit,operations=string_preprocess_operations)
 
                 elif is_float(str(t)):
                     #Note: the string "infinity" will trigger an exception and will be skipped
@@ -198,7 +199,7 @@ class Graph:
                         continue
                 else:
                     raise Exception(f'The token {t} is of type {type(t)} and it is not supported')
-                sentence = ' '.join(token_list[0:4])
+                sentence = ' '.join(token_list[0:token_length_limit])
                 try:
                     value_index = value_to_index[sentence]
                 except:  
@@ -220,20 +221,31 @@ class Graph:
     
 if __name__ == '__main__':
     df1 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\testAB.csv")
-    #df = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\walmart_amazon-tableB.csv")
-    df2 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\fodors_zagats-master.csv")
+    df2 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\walmart_amazon-tableB.csv")
+    df3 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\fodors_zagats-master.csv")
+    #embedding_buffer = FasttextEmbeddingBuffer()
     embedding_buffer = Bert_Embedding_Buffer()
     string_token_preprocessor = String_token_preprocessor()
     print('Graph generation starts')
-    start = time.time()
+    
     gl = Graph_list()
-
+    
+    start = time.time()
     g1 = Graph(df1, 'Table1', embedding_buffer, string_token_preprocessor)
-    gl.add_item(g1)
-    g2 = Graph(df2, 'Table2', embedding_buffer, string_token_preprocessor)
-    gl.add_item(g2)
-    gl.save(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Tests")
-    gl2 = Graph_list(directory_name=r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Tests")
     end = time.time()
-    print(f't_exec: {end-start}s')
-    print(f'number of embeddings: {g1.X.shape[0]}')
+    print(f'First graph generated in {end-start}s')
+    gl.add_item(g1)
+    
+    start = time.time()
+    g2 = Graph(df2, 'Table2', embedding_buffer, string_token_preprocessor)
+    end = time.time()
+    print(f'second graph generated in {end-start}s')
+    gl.add_item(g2)
+
+    start = time.time()
+    g3 = Graph(df3, 'Table3', embedding_buffer, string_token_preprocessor)
+    end = time.time()
+    print(f'third graph generated in {end-start}s')
+    gl.add(g3)
+
+    gl.save(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Tests")
