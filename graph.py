@@ -131,13 +131,13 @@ class Graph:
         self.columns_rows_to_values[row_idx].append(value_index)
 
     def __generate_feature_matrix(self, embeddings):
-        out = [torch.mean(embeddings[l], dim=0).reshape(1,-1) for l in self.columns_rows_to_values]
-        out = torch.cat(out, dim=0)
+        out = [torch.mean(embeddings[l], dim=0).reshape(1,-1) for l in self.columns_rows_to_values] 
+        out = torch.cat(out, dim=0) #cat of a list, obv
         out = torch.cat((out, embeddings), dim=0)
         return out
 
-    def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token,  emb_size=768, token_length_limit=20,link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
-                  number_preprocess_operations = ['cast_to_float', 'discretize_strict'], verbose=True):
+    def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token,  token_length_limit=20,link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
+                  number_preprocess_operations = ['cast_to_float', 'discretize_strict'], drop_na=False,verbose=True):
         """
             Desc: a dataframe will be processed to generate nodes and edges to add to the graph
             Params:
@@ -151,17 +151,16 @@ class Graph:
         self.X = None
         self.table_name = table_name
         self.number_of_edges = 0
-        self.emb_size = emb_size
 
         link_tuple_token = link_tuple_token
         link_token_attribute = link_token_attribute
         link_tuple_attribute = link_tuple_attribute
         string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words']
         number_preprocess_operations = ['cast_to_float', 'discretize_strict']
-
-        df.dropna(axis=0,how='all', inplace=True)
-        df.dropna(axis=1,how='all', inplace=True)
-
+        if drop_na:
+            df.dropna(axis=0,how='all', inplace=True)
+            df.dropna(axis=1,how='all', inplace=True)
+        
         n_columns = df.shape[1]
         n_rows = df.shape[0]
 
@@ -184,7 +183,24 @@ class Graph:
             
             for j in range(df.shape[1]):
                 t = df.iloc[i][j]
+                #NaN values management
                 if pd.isnull(t):
+                    sentence = '#£$/'   #Random key for NaN
+                    try:
+                        value_index = value_to_index[sentence]
+                    except:
+                        embedding_buffer.add_nan_embedding()
+                        value_index = self.__get_next_index('value')
+                        self.__add_value_to_index(values_count, j, row_index)
+                        values_count += 1
+                        value_to_index[sentence] = value_index
+
+                    if link_tuple_token:
+                        self.__add_edge(value_index, row_index)
+
+                    if link_token_attribute:
+                        self.__add_edge(value_index, column_indexes[j])
+
                     continue
 
                 if isinstance(t, str) and not(is_float(t)):
@@ -221,31 +237,11 @@ class Graph:
     
 if __name__ == '__main__':
     df1 = pd.read_csv(r"Datasets/testAB.csv")
-    df2 = pd.read_csv(r"/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/Datasets/fodors_zagats-master.csv") 
-    df3 = pd.read_csv(r"Datasets/walmart_amazon-tableB.csv") 
     embedding_buffer = FasttextEmbeddingBuffer()
     #embedding_buffer = Bert_Embedding_Buffer()
     string_token_preprocessor = String_token_preprocessor()
     print('Graph generation starts')
-    
-    gl = Graph_list()
-    
-    start = time.time()
+
     g1 = Graph(df1, 'Table1', embedding_buffer, string_token_preprocessor, verbose=False,token_length_limit=None)
-    end = time.time()
-    print(f'First graph generated in {end-start}s')
-    gl.add_item(g1)
-    
-    start = time.time()
-    g2 = Graph(df2, 'Table2', embedding_buffer, string_token_preprocessor, verbose=False, token_length_limit=None)
-    end = time.time()
-    print(f'second graph generated in {end-start}s')
-    gl.add_item(g2)
 
-    start = time.time()
-    g3 = Graph(df3, 'Table3', embedding_buffer, string_token_preprocessor, verbose=False,token_length_limit=None)
-    end = time.time()
-    print(f'third graph generated in {end-start}s')
-    gl.add(g3)
-
-    gl.save(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Tests")
+    print('fine')

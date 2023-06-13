@@ -11,6 +11,10 @@ class Embedding_buffer(ABC):
     @abstractmethod
     def pop_embeddings(self):
         return NotImplemented
+    
+    @abstractmethod
+    def add_nan_embedding(self):
+        return NotImplemented
 
 class Bert_Embedding_Generator:
     def __init__(self, output_hidden_states=False, bert_lm_name='bert-base-uncased'):
@@ -47,13 +51,22 @@ class Bert_Embedding_Generator:
             return sentence_embedding
 
 class FasttextEmbeddingBuffer(Embedding_buffer):
-    def __init__(self):
+    def __init__(self, model='word2vec-google-news-300'):   #'fasttext-wiki-news-subwords-300'
         print('Loading fasttext model, it will take 2/3 minutes')
-        self.model = api.load('fasttext-wiki-news-subwords-300')
+        self.model = api.load(model)
         print('Model loaded')
+        self.vector_size = self.model.vector_size
         self.n_embeddings = 0
         self.embeddings = None
 
+    def add_nan_embedding(self):
+        vector = torch.zeros(self.vector_size)
+        try:
+            self.embeddings = torch.cat((self.embeddings, vector.unsqueeze(0)), dim=0)
+        except TypeError:
+            self.embeddings = vector.unsqueeze(0)
+        self.n_embeddings += 1
+    
     def __get_embedding(self, word):
         return self.model[word]
 
@@ -96,6 +109,10 @@ class Bert_Embedding_Buffer(Embedding_buffer):
         self.n_sentences = 0
         self.buffer = []
         self.embeddings = None
+    def add_nan_embedding(self):
+        self.__process_buffer()
+        vector = torch.zeros(768)
+        self.embeddings = torch.cat((self.embeddings, vector.unsqueeze(0)), dim=0)
 
     def __add_new_emb(self, new_emb):
         if self.n_sentences == 1:

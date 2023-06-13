@@ -2,8 +2,9 @@ import pandas as pd
 import random
 from graph import *
 
-def generateDatasetList(n_datasets, max_n_cols, max_n_rows):
-    sentences = ['I have a pen and an apple','this sentence will be pretty long and hopefully it will confuse bert with a lot of useless words that are not only stop wrods but also other stuff and yws this sentence is pretty long again',
+def generateDatasetList(n_datasets, max_n_cols, max_n_rows, sentences=None):
+    if not(sentences):
+        sentences = ['I have a pen and an apple','this sentence will be pretty long and hopefully it will confuse bert with a lot of useless words that are not only stop wrods but also other stuff and yws this sentence is pretty long again',
                   'cat', 'dog','Keanu Reeves is an actor 3', '4','1','2','3','4','5','6','7','8','9','0','I believe I can fly', 'The plot of the book is that it is a book', 'Leopard','JaGuar',
                   'this sentence will be pretty long and hopefully it will confuse bert with a lot of useless words that are not only stop wrods but also other stuff and yws this sentence is pretty long again',
                   'this sentence will be pretty long and hopefully it will confuse bert with a lot of useless words that are not only stop wrods but also other stuff and yws this sentence is pretty long again']
@@ -30,8 +31,30 @@ def processDataset(df,embedding_buffer, string_token_preprocessor):
     print(f'T_exec: {tot}s')
     return tot
 
+if __name__ == '__main_':
+    tl = generateDatasetList(1000, 5, 50, ["ciao "*40])
+    embedding_buffer_fastt = FasttextEmbeddingBuffer()
+    embedding_buffer_bert = Bert_Embedding_Buffer()
+    string_token_preprocessor = String_token_preprocessor()
+    s = "dog "*40
+    for i in range(10):
+        start = time.time()
+        embedding_buffer_fastt(s)
+        embedding_buffer_fastt.pop_embeddings()
+        end = time.time()
+        print(f'Iter {i}: {end-start}s')
+    
+    for i in range(10):
+        start = time.time()
+        embedding_buffer_fastt(s)
+        embedding_buffer_fastt.pop_embeddings()
+        end = time.time()
+        print(f'Iter {i}: {end-start}s')
+
+
 if __name__ == '__main__':
-    tl = generateDatasetList(10000, 50, 50)
+    tl = generateDatasetList(10000, 5, 50, ["ciao "*40])
+    print('This_test')
     embedding_buffer_fastt = FasttextEmbeddingBuffer()
     embedding_buffer_bert = Bert_Embedding_Buffer()
     string_token_preprocessor = String_token_preprocessor()
@@ -51,7 +74,7 @@ if __name__ == '__main__':
     start = time.time()
     t = 0
     for i in range(len(tl)):
-        k = processDataset(tl[i], embedding_buffer_fastt, string_token_preprocessor)
+        k = processDataset(tl[i], embedding_buffer_bert, string_token_preprocessor)
         if i!=0:
             t+=k
     end = time.time()
