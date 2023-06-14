@@ -195,3 +195,4 @@ if __name__ == '__main_':
     e2 = bert(l2)
     e3 = bert(l3)
     e4 = bert(l4)
+    

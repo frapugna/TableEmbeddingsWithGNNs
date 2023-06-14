@@ -5,7 +5,9 @@ import os
 import pickle
 import re
 import time
+from pymongo import MongoClient
 
+#To parse from scratch
 def parse_dataset(first, last):
 
     dataset_path = "datasets/tobias_tables"
@@ -101,3 +103,38 @@ def parse_dataset(first, last):
         iteration += 1
 
         os.remove(json_file_path)
+
+#To load in tables from pickles
+def store_tables(first, last):
+
+    dataset_path = "datasets/tobias_tables"
+
+    client = MongoClient()
+
+    db = client.blossom
+
+    table_collection = db.tables
+
+    iteration = 0
+
+    table_files = sorted([table_file for table_file in os.listdir(dataset_path) if table_file.endswith(".output.pkl")])
+
+    for file in table_files[first:last]:
+
+        start_time = time.time()
+
+        with bz2.BZ2File(dataset_path + "/" + file, "rb") as f:
+
+            tables = pickle.load(f)
+
+            if len(tables) > 0:
+
+                table_collection.insert_many(tables)
+
+            f.close()
+
+        end_time = time.time()
+
+        print("Iteration " + str(iteration) + ": " + str(end_time - start_time) + " s")
+
+        iteration += 1

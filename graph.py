@@ -132,7 +132,7 @@ class Graph:
 
     def __generate_feature_matrix(self, embeddings):
         out = [torch.mean(embeddings[l], dim=0).reshape(1,-1) for l in self.columns_rows_to_values] 
-        out = torch.cat(out, dim=0) #cat of a list, obv
+        out = torch.cat(out, dim=0) #cat of a list
         out = torch.cat((out, embeddings), dim=0)
         return out
 
