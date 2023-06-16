@@ -1,10 +1,8 @@
-from os import PathLike
-from pathlib import Path
-import pickle
-from typing import Optional, TypeVar, Union
+from typing import Optional
 import pandas as pd
 from tqdm import tqdm
 from statistics import mean
+
 def deduplicate_hybrid(df:pd.DataFrame)->pd.DataFrame:
     df = df.sort_values('r_id')
     to_drop = []
@@ -20,6 +18,9 @@ def deduplicate_hybrid(df:pd.DataFrame)->pd.DataFrame:
     return df.drop(to_drop)    
 
 def prepare_triple_file(input_file:str, output_file:str, is_hybrid=False)->None:
+    """
+        ____Deprecated____
+    """
     try:
         df = pd.read_csv(input_file)
     except:
@@ -38,7 +39,7 @@ def prepare_triple_file(input_file:str, output_file:str, is_hybrid=False)->None:
         raise Exception('Write operation failed') 
     print('Write operation succeded')
 
-def rebalance_triple_file(input_file:str, output_file:str,thresholds:Optional[int]=None, set_thresholds:bool=False, drop_1:bool=True)->None:
+def rebalance_triple_file(input_file:str, output_file:str,thresholds:Optional[int]=None, set_thresholds:bool=False, drop_1:bool=True)->pd.DataFrame:
     try:
         df = pd.read_csv(input_file)
     except:
@@ -60,45 +61,7 @@ def rebalance_triple_file(input_file:str, output_file:str,thresholds:Optional[in
     except:
         raise Exception('Write operation failed') 
     print('Write operation succeded')
-
-def describe_samples_distribution(df:pd.DataFrame, granularity:float=0.1)->dict:
-    d = {}
-    for i in tqdm(range(len(df))):
-        n = df['table_overlap'][i]//granularity/10
-        if i == 1:
-            n = 1
-        try:
-            d[n].append(i)
-        except:
-            d[n]=[]
-            d[n].append(i)
-    out = {}
-    for k in d.keys():
-        print(f'Bin: {k}')
-        print(df['table_overlap'][d[k]].describe())
-        out[k]=df['table_overlap'][d[k]]
-    return out
-    
-    
-
-
-def show_samples_distribution(df:pd.DataFrame, granularity:float=0.1)->dict:
-    d = {}
-    for i in tqdm(df['table_overlap']):
-        n = i//granularity/10
-        if i == 1:
-            n = 1
-        try:
-            d[n]+=1
-        except:
-            d[n]=1
-    l=[ [k,v] for k,v in d.items()]
-    df_occurrencies = pd.DataFrame(l).sort_values(0)
-    ax = df_occurrencies.plot(x=0, y=1, kind='bar')
-    for p in ax.patches:
-        ax.annotate(str(p.get_height()), (p.get_x() + p.get_width() / 2, p.get_height()),
-                    ha='center', va='bottom')
-    return d
+    return df_out
 
 def generate_thresholded_dataset(path_in:str,  path_out:str, granularity:float=0.1, strategy:str='min'):
     df = pd.read_csv(path_in)
@@ -135,8 +98,6 @@ def generate_thresholded_dataset(path_in:str,  path_out:str, granularity:float=0
         raise Exception('Write operation failed') 
     print('Write operation succeded')
 
-
-
 def generate_full_triple_dataset(path_base:str, path_hybrid:str, path_out:str)->pd.DataFrame:
     try:
         df_base = pd.read_csv(path_base)
@@ -166,21 +127,123 @@ def generate_full_triple_dataset(path_base:str, path_hybrid:str, path_out:str)->
 
     return df_out
 
-def generate_csv_min_mean(agg=['min','mean'], gran=[0.1,0.01], name=['01','001']):
+def generate_csv_min_mean(path_in, out_directory, agg=['min','mean'], gran=[0.1,0.01], name=['01','001']):
     for i in range(len(gran)):
         for j in range(len(agg)):
-            generate_thresholded_dataset(path_in="/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_sample_no_1_overlap.csv",
-                                path_out=f"/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_sample_thresholded_{name[i]}_{agg[j]}.csv",
+            generate_thresholded_dataset(path_in=path_in,
+                                path_out=f"{out_directory}/test_sample_thresholded_{name[i]}_{agg[j]}.csv",
                                 granularity=gran[i],
                                 strategy=agg[j])
+            
+def extract_exact_overlap(df:pd.DataFrame, limit:int, threshold:float)->pd.DataFrame:
+    count = 0
+    out_list = []
+    df = df.sample(frac=1, random_state=42).reset_index(drop=True)
+    for i in range(df.shape[0]):
+        if df['table_overlap'][i]==threshold:
+            out_list.append(i)
+            count+=1
+            if count >= threshold:
+                break
+    return df.iloc[out_list][:]
 
+def show_samples_distribution(df:pd.DataFrame, granularity:float=0.1)->dict:
+    """The dataset is divided in bins based on sample's table overlap, a bar diagram is displayed to show visually the data distribution
+
+    Args:
+        df (pd.DataFrame): the dataframe to analyze
+        granularity (float, optional): the size of the bins. Defaults to 0.1.
+
+    Returns:
+        dict: contains the count of elements in every bin
+    """
+    d = {}
+    for i in tqdm(df['table_overlap']):
+        n = i//granularity/10
+        if i == 1:
+            n = 1
+        try:
+            d[n]+=1
+        except:
+            d[n]=1
+    l=[ [k,v] for k,v in d.items()]
+    df_occurrencies = pd.DataFrame(l).sort_values(0)
+    ax = df_occurrencies.plot(x=0, y=1, kind='bar')
+    for p in ax.patches:
+        ax.annotate(str(p.get_height()), (p.get_x() + p.get_width() / 2, p.get_height()),
+                    ha='center', va='bottom')
+    return d
+
+def describe_samples_distribution(df:pd.DataFrame, granularity:float=0.1)->dict:
+    """The dataset is divided in bins based on sample's table overlap
+
+    Args:
+        df (pd.DataFrame): the dataframe to analyze
+        granularity (float, optional): the sizeo of the bins. Defaults to 0.1.
+
+    Returns:
+        dict: a dictionary which contains the "describes" of all the bins
+    """
+    d = {}
+    for i in tqdm(range(len(df))):
+        n = df['table_overlap'][i]//granularity/10
+        if i == 1:
+            n = 1
+        try:
+            d[n].append(i)
+        except:
+            d[n]=[]
+            d[n].append(i)
+    out = {}
+    for k in d.keys():
+        print(f'Bin: {k}')
+        print(df['table_overlap'][d[k]].describe())
+        out[k]=df['table_overlap'][d[k]]
+    
+    return out
+
+def re_generate_triple_datasets(input_file_base:str, input_file_hybrid:str, out_directory:str)->None:
+    
+    """This function perform all the preprocessing pipeline necessary to obtain the triples file necesessary for the training of the model:
+    * test_samples_dirty.csv
+    * test_samples_no_ones.csv
+    * test_samples_base.csv 
+    * test_sample_thresholded_001_mean.csv
+    * test_sample_thresholded_001_min.csv
+    * test_sample_thresholded_01_mean.csv
+    * test_sample_thresholded_01_min.csv
+
+    Args:
+        input_file_base (str): path to the raw file containing all the matches with their overlap
+        input_file_hybrid (str): path to the raw file containing all the approximated matches with their overlap
+        out_directory (str): directory where to save all the generated csv files
+    """
+    print('Full triple dataset generation starts')
+    df_full = generate_full_triple_dataset(input_file_base, input_file_hybrid, out_directory+"/test_samples_dirty.csv")
+    print('Full triple dataset generation ends')
+    
+    print('Perfect matches extraction operation starts')
+    df_perfect_matches = extract_exact_overlap(df_full, 10000, 1)
+    print('Perfect matches extraction operation ends')
+
+    print('Rebalancing operation starts')
+    df_no_1 = rebalance_triple_file(out_directory+"/test_samples_dirty.csv", out_directory+"/test_samples_no_ones.csv")
+    print('Rebalancing operation ends')
+
+    print('Adding perfect matches to the dataset')
+    df_full = pd.concat([df_no_1, df_perfect_matches])
+    try:
+        df_full.to_csv(out_directory+"/test_samples_base.csv", index=False)
+    except:
+        raise Exception('Write operation failed') 
+    
+    print('Thresholded datasets generation starts')
+    generate_csv_min_mean(out_directory+"/test_samples_base.csv", out_directory)
+    print('Thresholded datasets generation ends')
+    
 if __name__=='__main__':
-    #df = deduplicate_hybrid()
-    #rebalance_triple_file("/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples.csv","/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples.csv")
-    # df = generate_full_triple_dataset("/dati/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/triples_wikipedia_tables.csv",
-    #                                   "/dati/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/hybrid_dataset_stats.csv",
-    #                                   "/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_sample_dirty.csv"
-    #                                   )
-    # rebalance_triple_file("/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_sample_dirty.csv",
-    #                       "/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_sample_no_1_overlap.csv")
-    generate_csv_min_mean()
+    re_generate_triple_datasets("/dati/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/triples_wikipedia_tables.csv",
+                                "/dati/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/hybrid_dataset_stats.csv",
+                                "/home/francesco.pugnaloni/wikipedia_tables/processed_tables"
+                                )
+    print('ok')
