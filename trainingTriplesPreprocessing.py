@@ -131,7 +131,7 @@ def generate_csv_min_mean(path_in, out_directory, agg=['min','mean'], gran=[0.1,
     for i in range(len(gran)):
         for j in range(len(agg)):
             generate_thresholded_dataset(path_in=path_in,
-                                path_out=f"{out_directory}/test_sample_thresholded_{name[i]}_{agg[j]}.csv",
+                                path_out=f"{out_directory}/test_samples_thresholded_{name[i]}_{agg[j]}.csv",
                                 granularity=gran[i],
                                 strategy=agg[j])
             
@@ -208,10 +208,10 @@ def re_generate_triple_datasets(input_file_base:str, input_file_hybrid:str, out_
     * test_samples_dirty.csv
     * test_samples_no_ones.csv
     * test_samples_base.csv 
-    * test_sample_thresholded_001_mean.csv
-    * test_sample_thresholded_001_min.csv
-    * test_sample_thresholded_01_mean.csv
-    * test_sample_thresholded_01_min.csv
+    * test_samples_thresholded_001_mean.csv
+    * test_samples_thresholded_001_min.csv
+    * test_samples_thresholded_01_mean.csv
+    * test_samples_thresholded_01_min.csv
 
     Args:
         input_file_base (str): path to the raw file containing all the matches with their overlap

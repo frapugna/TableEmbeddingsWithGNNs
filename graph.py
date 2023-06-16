@@ -137,7 +137,7 @@ class Graph:
         return out
 
     def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token,  token_length_limit=20,link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
-                  number_preprocess_operations = ['cast_to_float', 'discretize_strict'], drop_na=False,verbose=True):
+                  number_preprocess_operations = ['cast_to_float', 'discretize_strict'], drop_na=False,verbose=False):
         """
             Desc: a dataframe will be processed to generate nodes and edges to add to the graph
             Params:
@@ -163,6 +163,9 @@ class Graph:
         
         n_columns = df.shape[1]
         n_rows = df.shape[0]
+
+        if (n_columns == 0) or (n_rows == 0):
+            raise Exception('You cannot generate a graph from an empty DataFrame')
 
         self.next_column_index = 0
         self.next_row_index = n_columns
@@ -241,7 +244,10 @@ if __name__ == '__main__':
     #embedding_buffer = Bert_Embedding_Buffer()
     string_token_preprocessor = String_token_preprocessor()
     print('Graph generation starts')
-
-    g1 = Graph(df1, 'Table1', embedding_buffer, string_token_preprocessor, verbose=False,token_length_limit=None)
+    try:
+        g1 = Graph(pd.DataFrame(), 'Table1', embedding_buffer, string_token_preprocessor, verbose=False,token_length_limit=None)
+    except:
+        g1 = None
+        print('Exception managed')
 
     print('fine')
