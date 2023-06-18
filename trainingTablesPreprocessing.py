@@ -57,11 +57,22 @@ def process_all_pickles(directory_path:str, index_path:str, out_path:str)->dict:
 
     return out
 
+def get_empty_tables_ids(dlist:dict)->list:
+    count_none = 0
+    out = []
+    for k in tqdm(dlist.keys()):
+        shape = dlist[k].shape
+        if shape[0]==0 or shape[1]==0:
+            count_none+=1
+            out.append(k)
+    print(f'Number of empty tables = {count_none}')
+    return out
+
 def generate_graph_dictionary(table_dict_path:str, out_path:str)->dict:
     with open(table_dict_path,'rb') as f:
         table_dict = pickle.load(f)
     
-    embedding_buffer = FasttextEmbeddingBuffer()
+    embedding_buffer = FasttextEmbeddingBuffer(model='fasttext-wiki-news-subwords-300')
     string_token_preprocessor = String_token_preprocessor()
 
     out = {}
@@ -86,11 +97,11 @@ if __name__ == '__main__':
     #                         "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/table_id_set.pkl")
     # ids = get_tables_ids("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/table_id_set.pkl")
     # print(f'Found {len(ids)} different ids')
-    ids = get_tables_ids("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/table_id_set.pkl")
-    t = process_pickle("/dati/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/wikipedia_tables_zip/enwiki-20190901-pages-meta-history7.xml-p972010p972235.output.pkl",ids)
-    process_all_pickles("/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/wikipedia_tables_zip",
-                        "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/table_id_set.pkl",
-                        "/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl"
-                        )
+    # ids = get_tables_ids("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/table_id_set.pkl")
+    # t = process_pickle("/dati/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/wikipedia_tables_zip/enwiki-20190901-pages-meta-history7.xml-p972010p972235.output.pkl",ids)
+    # process_all_pickles("/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/wikipedia_tables_zip",
+    #                     "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/table_id_set.pkl",
+    #                     "/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl"
+    #                     )
     
-    #gd = generate_graph_dictionary("/dati/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/tmp/full_table_dict_with_id.pkl", "/dati/home/francesco.pugnaloni/wikipedia_tables/unprocessed_tables/tmp/full_graph_dict.pkl")
+    gd = generate_graph_dictionary("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl", "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_graphs_dict_with_id.pkl")
