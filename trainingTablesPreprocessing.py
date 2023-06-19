@@ -25,7 +25,7 @@ def compute_table_ids(triples_dataset_path:str, output_file:str)->set:
         pickle.dump(tables_indexes, f)
     return tables_indexes
 
-def get_tables_ids(file:str)->None:
+def get_tables_ids(file:str)->set:
     with open(file, 'rb') as f:
         return pickle.load(f)
 
@@ -68,6 +68,32 @@ def get_empty_tables_ids(dlist:dict)->list:
     print(f'Number of empty tables = {count_none}')
     return out
 
+def drop_small_tables(table_file:str, old_triple_file:str,new_triple_file_out:str, dim_min:int=3)->pd.DataFrame:
+    with open(table_file,'rb') as f:
+        tables = pickle.load(f)
+    to_drop_key_list = []
+    for k in tqdm(tables.keys()):
+        s = tables[k].shape
+        if (s[0] < dim_min) or (s[1] < dim_min):
+            to_drop_key_list.append(k)
+    df = pd.read_csv(old_triple_file)
+
+    to_drop_key_list = set(to_drop_key_list)
+
+    to_drop_index_list = []
+    for i in tqdm(range(df.shape[0])):
+        if (str(df['r_id'][i]) in to_drop_key_list) or (str(df['s_id'][i]) in to_drop_key_list):
+            to_drop_index_list.append(i)
+
+    out = df.drop(to_drop_index_list)
+
+    print(f'Dropped {len(to_drop_index_list)} samples')
+
+    out.to_csv(new_triple_file_out, index=False)
+
+    return out
+    
+
 def generate_graph_dictionary(table_dict_path:str, out_path:str)->dict:
     with open(table_dict_path,'rb') as f:
         table_dict = pickle.load(f)
@@ -104,4 +130,9 @@ if __name__ == '__main__':
     #                     "/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl"
     #                     )
     
-    gd = generate_graph_dictionary("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl", "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_graphs_dict_with_id.pkl")
+    # gd = generate_graph_dictionary("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl", "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_graphs_dict_with_id.pkl")
+
+    drop_small_tables("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl",
+                      "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples_no_ones.csv",
+                      "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples_no_small_tables.csv")
+    

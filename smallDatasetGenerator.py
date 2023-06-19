@@ -1,6 +1,7 @@
 import pandas as pd
 import random
 from graph import *
+from typing import Union
 
 def generateDatasetList(n_datasets, max_n_cols, max_n_rows, sentences=None):
     if not(sentences):
@@ -10,7 +11,7 @@ def generateDatasetList(n_datasets, max_n_cols, max_n_rows, sentences=None):
                   'this sentence will be pretty long and hopefully it will confuse bert with a lot of useless words that are not only stop wrods but also other stuff and yws this sentence is pretty long again']
     n_sentences = len(sentences)
     tables = []
-    for i in range(n_datasets):
+    for _ in range(n_datasets):
         r = random.randint(1,max_n_rows)
         c = random.randint(1,max_n_cols)
         rows = []
