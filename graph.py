@@ -5,7 +5,7 @@ import nltk
 from nltk.corpus import stopwords
 import math
 from node_embeddings import *
-import time
+
 """
     Assumptions:
     - all the graphs can fit in memory
@@ -136,8 +136,11 @@ class Graph:
         out = torch.cat((out, embeddings), dim=0)
         return out
 
-    def __init__(self,  df, table_name, embedding_buffer, preprocess_string_token,  token_length_limit=20,link_tuple_token=True, link_token_attribute=True, link_tuple_attribute=False, attribute_preprocess_operations = ['lowercase', 'drop_numbers_from_strings'], string_preprocess_operations = ['lowercase', 'split', 'remove_stop_words'],
-                  number_preprocess_operations = ['cast_to_float', 'discretize_strict'], drop_na=False,verbose=False):
+    def __init__(self,  df: pd.DataFrame, table_name: str, embedding_buffer: Embedding_buffer, preprocess_string_token: String_token_preprocessor,  
+                token_length_limit: int=20,link_tuple_token: bool=True, link_token_attribute: bool=True, link_tuple_attribute: bool=False, 
+                attribute_preprocess_operations: list=['lowercase', 'drop_numbers_from_strings'], 
+                string_preprocess_operations: list=['lowercase', 'split', 'remove_stop_words'],
+                number_preprocess_operations: list=['cast_to_float', 'discretize_strict'], drop_na: bool=False, verbose: bool=False) -> None:
         """
             Desc: a dataframe will be processed to generate nodes and edges to add to the graph
             Params:
@@ -172,6 +175,7 @@ class Graph:
         self.next_value_index = n_columns + n_rows
 
         self.columns_rows_to_values = [[] for _ in range(n_columns+n_rows)]  #contains for every column and row the list of the indexes of the associted values 
+        index_left_shift = len(self.columns_rows_to_values)
         column_indexes = [i for i in range(n_columns)]
         value_to_index = {}
         values_count = 0
@@ -185,12 +189,13 @@ class Graph:
                     self.__add_edge(row_index, id)
             
             for j in range(df.shape[1]):
-                t = df.iloc[i][j]
+                t = df.iloc[i,j]
                 #NaN values management
                 if pd.isnull(t):
                     sentence = '#£$/'   #Random key for NaN
                     try:
                         value_index = value_to_index[sentence]
+                        self.__add_value_to_index(value_index-index_left_shift, j, row_index)
                     except:
                         embedding_buffer.add_nan_embedding()
                         value_index = self.__get_next_index('value')
@@ -221,6 +226,8 @@ class Graph:
                 sentence = ' '.join(token_list)
                 try:
                     value_index = value_to_index[sentence]
+                    
+                    self.__add_value_to_index(value_index-index_left_shift, j, row_index)   #ADDED_________________________-
                 except:  
                     embedding_buffer(sentence)
                     value_index = self.__get_next_index('value')
@@ -238,16 +245,15 @@ class Graph:
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.edges = torch.tensor(self.edges, dtype=torch.long).to(device=device)
     
-if __name__ == '__main__':
-    df1 = pd.read_csv(r"Datasets/testAB.csv")
-    embedding_buffer = FasttextEmbeddingBuffer()
-    #embedding_buffer = Bert_Embedding_Buffer()
+if __name__ == "__main__":
+    from smallDatasetGenerator import *
+    data = load_test_training_stuff("/home/francesco.pugnaloni/tmp/small_tables")
+    t = data['tables']['25']
+    t['1'] = [pd.NA, 15, pd.NA]
+    #embedding_buffer = FasttextEmbeddingBuffer(model='fasttext-wiki-news-subwords-300')
+    #embedding_buffer = FasttextEmbeddingBuffer()
+    embedding_buffer = Bert_Embedding_Buffer()
     string_token_preprocessor = String_token_preprocessor()
-    print('Graph generation starts')
-    try:
-        g1 = Graph(pd.DataFrame(), 'Table1', embedding_buffer, string_token_preprocessor, verbose=False,token_length_limit=None)
-    except:
-        g1 = None
-        print('Exception managed')
-
-    print('fine')
+    g = Graph(t, 'luca', embedding_buffer, string_token_preprocessor)
+    print(f'Number of NA: {torch.sum(torch.isnan(g.X))}')
+    print('ok')

@@ -89,7 +89,6 @@ class FasttextEmbeddingBuffer(Embedding_buffer):
             vector = torch.rand(300)
         else:
             vector =  vector / n_words
-
         self.n_embeddings += 1
         try:
             self.embeddings = torch.cat((self.embeddings, vector.unsqueeze(0)), dim=0)
@@ -112,7 +111,10 @@ class Bert_Embedding_Buffer(Embedding_buffer):
     def add_nan_embedding(self):
         self.__process_buffer()
         vector = torch.zeros(768)
-        self.embeddings = torch.cat((self.embeddings, vector.unsqueeze(0)), dim=0)
+        try:
+            self.embeddings = torch.cat((self.embeddings, vector.unsqueeze(0)), dim=0)
+        except:
+            self.embeddings = torch.cat((self.embeddings, vector.unsqueeze(0).to('cuda')), dim=0)
 
     def __add_new_emb(self, new_emb):
         if self.n_sentences == 1:

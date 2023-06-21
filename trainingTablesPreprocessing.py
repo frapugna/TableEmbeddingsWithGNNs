@@ -4,7 +4,8 @@ import os
 import bz2
 import pickle
 import _pickle as cPickle
-from graph import *
+from graph import String_token_preprocessor
+from graph import Graph
 from node_embeddings import *
 
 # Load any compressed pickle file

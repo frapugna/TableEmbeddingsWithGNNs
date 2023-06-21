@@ -1,7 +1,9 @@
 import pandas as pd
 import random
 from graph import *
-from typing import Union
+from trainingTablesPreprocessing import *
+import pickle
+import time
 
 def generateDatasetList(n_datasets, max_n_cols, max_n_rows, sentences=None):
     if not(sentences):
@@ -32,55 +34,31 @@ def processDataset(df,embedding_buffer, string_token_preprocessor):
     print(f'T_exec: {tot}s')
     return tot
 
-if __name__ == '__main_':
-    tl = generateDatasetList(1000, 5, 50, ["ciao "*40])
-    embedding_buffer_fastt = FasttextEmbeddingBuffer()
-    embedding_buffer_bert = Bert_Embedding_Buffer()
-    string_token_preprocessor = String_token_preprocessor()
-    s = "dog "*40
-    for i in range(10):
-        start = time.time()
-        embedding_buffer_fastt(s)
-        embedding_buffer_fastt.pop_embeddings()
-        end = time.time()
-        print(f'Iter {i}: {end-start}s')
-    
-    for i in range(10):
-        start = time.time()
-        embedding_buffer_fastt(s)
-        embedding_buffer_fastt.pop_embeddings()
-        end = time.time()
-        print(f'Iter {i}: {end-start}s')
+def generate_test_training_stuff(num_tables: int, num_samples: int, 
+                                 outdir: str="/home/francesco.pugnaloni/wikipedia_tables/small_dataset_debug",
+                                 w: int=10, h: int=10) -> None:
+    random.seed(42)
+    dl = generateDatasetList(num_tables, h, w)
+    td = {str(i):dl[i] for i in range(len(dl))}
+    with open(outdir+'/tables.pkl', 'wb') as f:
+        pickle.dump(td, f)
+    dg = generate_graph_dictionary(outdir+'/tables.pkl', outdir+'/graphs.pkl')
+    triples = []
+    for _ in range(num_samples):
+        a = random.randint(0,len(dg)-1)
+        b = random.randint(0,len(dg)-1)
+        o = random.random()
+        triples.append([a,b,o])
+    pd.DataFrame(triples).to_csv(outdir+"/triples.csv", index=False)
 
+def load_test_training_stuff(filedir: str="/home/francesco.pugnaloni/wikipedia_tables/small_dataset_debug") -> dict:
+    with open(filedir+'/tables.pkl', 'rb') as f:
+        td = pickle.load(f)
+    with open(filedir+'/graphs.pkl', 'rb') as f:
+        gd = pickle.load(f)
+    triples = pd.read_csv(filedir+'/triples.csv')
+
+    return {'tables':td, 'graphs':gd, 'triples':triples}
 
 if __name__ == '__main__':
-    tl = generateDatasetList(10000, 5, 50, ["ciao "*40])
-    print('This_test')
-    embedding_buffer_fastt = FasttextEmbeddingBuffer()
-    embedding_buffer_bert = Bert_Embedding_Buffer()
-    string_token_preprocessor = String_token_preprocessor()
-    print('FastTextEmbedding test starts______________________')
-    start = time.time()
-    t = 0
-    for i in range(len(tl)):
-        k = processDataset(tl[i], embedding_buffer_fastt, string_token_preprocessor)
-        if i!=0:
-            t+=k
-    end = time.time()
-    t_avg_fastt = t/len(tl)
-    t_tot_fastt = end-start
-
-
-    print('Bert test starts______________________')
-    start = time.time()
-    t = 0
-    for i in range(len(tl)):
-        k = processDataset(tl[i], embedding_buffer_bert, string_token_preprocessor)
-        if i!=0:
-            t+=k
-    end = time.time()
-    t_avg_bert = t/len(tl)
-    t_tot_bert = end-start
-
-    print(f'fastTextEmbedding___________________________\nAverage graph generation time: {t_avg_fastt}\nTotal t_exec: {t_tot_fastt}s') 
-    print(f'Bert________________________________________\nAverage graph generation time: {t_avg_bert}\nTotal t_exec: {t_tot_bert}s') 
+    generate_test_training_stuff(50, 100)

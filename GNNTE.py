@@ -1,134 +1,212 @@
+from collections.abc import Sequence
 import torch
 from tqdm import tqdm
-from torch.utils.data import DataLoader
 from torch_geometric.nn.models import GIN
-from torch.utils.data import Dataset
 import pickle
 import pandas as pd
 from graph import *
 from torch import nn
-from torch.utils.data import DataLoader, random_split
+from sklearn.model_selection import train_test_split
+from typing import Optional
+from torch_geometric.data import Data
+from torch_geometric.loader import DataLoader
+from torch_geometric.data import Dataset
+from torch_geometric.data import Batch
+import torch.nn.functional as F
+import numpy as np
+import random
+
+def set_seed(seed) -> None:
+    """ Set random seeds. """
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
 
 class GraphTriplesDataset(Dataset):
-    def __init__(self, triple_file: str, graph_file: str) -> None:
-        try:
-            print('Loading triple file')
-            self.triples = pd.read_csv(triple_file)
-            print('Triple file loaded')
-        except:
-            raise Exception('Wrong triple file path')
-        try:
-            print('Loading graph file')
-            with open(graph_file, 'rb') as f:
-                self.graphs = pickle.load(f)
-            print('Graph file loaded')
-        except:
-            raise Exception('Wrong graph file path')
-    
-    def __len__(self)->int:
+    def __init__(self, triples: pd.DataFrame, graphs: dict, tables: Optional[dict] = None) -> None:
+        super(GraphTriplesDataset, self).__init__()
+        self.triples = triples
+        self.graphs = graphs
+
+    def len(self) -> int:
         return len(self.triples)
     
-    def __getitem__(self, idx:int)->tuple:
+    def get(self, idx:int) -> tuple:
         t = self.triples.iloc[idx][:]
-        return self.graphs[str(t[0])], self.graphs[str(t[1])], t[2]
+        try:
+            g1 = self.graphs[str(t[0])]
+            g2 = self.graphs[str(t[1])]
+        except:
+            g1 = self.graphs[str(int(t[0]))]
+            g2 = self.graphs[str(int(t[1]))]
+        return Data(g1.X, g1.edges), Data(g2.X, g2.edges), t[2]
+    
+    
+def train_test_valid_split(df: pd.DataFrame, ttv_ratio: set=(0.8,0.1,0.1)) -> None:
+    train_data, test_valid_data = train_test_split(df, test_size=ttv_ratio[1]+ttv_ratio[2], random_state=42)
+    test_data, valid_data = train_test_split(   test_valid_data, 
+                                                test_size=ttv_ratio[2]*(ttv_ratio[1]+ttv_ratio[2]), 
+                                                random_state=42)
+    return train_data, test_data, valid_data
     
 
 class GNNTE(nn.Module):
     def __init__(self, hidden_channels:int, num_layers:int) -> None:
+        """_summary_
+
+        Args:
+            hidden_channels (int): size of the generated embeddings
+            num_layers (int): number of layers of the network, every embedding will be generated using using his neighbours at distance num_layers
+        """
         super(GNNTE,self).__init__()
+        self.hidden_channels = hidden_channels
+        self.num_layers = num_layers
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = GIN(-1,hidden_channels,num_layers).to(self.device)
 
-    def forward(self, g1: Graph, g2: Graph) -> torch.tensor:
+    def forward(self, b: Batch) -> torch.tensor:
+        #calcolo lista lunghezze
+        intervals = [0]
+        for i in range(b.num_graphs):
+            intervals.append(b[i]['x'].shape[0]+intervals[-1])
+        #gin
+        out_gin = self.model(b['x'], b['edge_index'])
+        #medie
+        means = [torch.mean(out_gin[intervals[i]:intervals[i+1]][:], dim=0).unsqueeze(dim=0) for i in range(b.num_graphs)]
+        return torch.cat(means, dim=0)
 
-def training_pipeline(triple_file: str, graph_file: str, ttv_ratio: set=(0.8,0.1,0.1) ) -> GNNTE:
+def load_model(model_file: str, hidden_channels: int, num_layers: int) -> GNNTE:
+    model = GNNTE(hidden_channels, num_layers)
+    state_dict = torch.load(model_file)
+    model.load_state_dict(state_dict['model_state_dict'])
+    return model
+
+def load_test_training_stuff(triple_file: str, graph_file: str) -> dict:
+    with open(graph_file, 'rb') as f:
+        gd = pickle.load(f)
+    triples = pd.read_csv(triple_file)
+    return {'graphs':gd, 'triples':triples}
+
+def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidden_channels: int, num_layers: int,
+                        ttv_ratio: set=(0.8,0.1,0.1), batch_size: int=64, lr: float=0.01, 
+                        num_epochs: int=100) -> GNNTE:
+    set_seed(42)
     # Creazione 3 datasets
-    data = GraphTriplesDataset(triple_file, graph_file)
-    size = len(data)
-    ttv = [size*ttv_ratio[0], size*ttv_ratio[1], size*ttv_ratio[2]]
-    train, valid, test = random_split(train, ttv)
+    all_data = load_test_training_stuff(triple_file, graph_file)
+
+    tables = train_test_valid_split(all_data['triples'], ttv_ratio)
+    train_dataset = GraphTriplesDataset(tables[0], all_data['graphs'])
+    test_dataset = GraphTriplesDataset(tables[1], all_data['graphs'])
+    valid_dataset = GraphTriplesDataset(tables[2], all_data['graphs'])
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Creazione modello
     # model to device
-    # train(model, train_data, val_data, batch_size, lr, num_epochs, device)
+    model = GNNTE(hidden_channels, num_layers)
 
+    model = train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, device, model_file)
+    test(model, test_dataset, batch_size)
 
->> train
-def train(model, train_data, val_data, batch_size, lr, num_epochs, device)
-# train, valid dataloader
-# optimizer
-# loss
+    return model
 
-best_loss = float('inf')
-for epoch in range(num_epochs):
+def train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, device, model_file: str, 
+          shuffle: bool=False, num_workers: int=0,  weight_decay: float=5e-4) -> GNNTE:
+    # train, valid dataloader
+    train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle, num_workers=num_workers)
+    valid_dataloader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=shuffle, num_workers=num_workers)
 
-    # Train step
-    train_loss = train_epoch(model, train_dataloader, optimizer, criterion, device))
+    # optimizer
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+    # loss
+    loss_criterion = nn.MSELoss()
 
-    # Eval step
-    val_loss = eval_epoch(model, valid_dataloader, criterion, device)
+    best_loss = float('inf')
+    for epoch in range(num_epochs):
 
+        # Train step
+        train_loss = train_epoch(model, train_dataloader, optimizer, loss_criterion, device)
 
-    if val_loss < best_loss:
-        best_loss = val_loss
-        # save_model_checkpoint
-                
+        # Eval step
+        
+        val_loss = eval_epoch(model, valid_dataloader, loss_criterion, device)
 
->> train_epoch
-def train_epoch(model, train_dataloader, optimizer, criterion, device):
-	total_loss = 0
+        print(f'Train loss: {train_loss}, Valid loss: {val_loss}')
 
-	model.train()
+        if val_loss < best_loss:
+            best_loss = val_loss
+            # save_model_checkpoint
+            checkpoint = {
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'epoch': epoch
+            }
+            torch.save(checkpoint, model_file)
+            print('Checkpoint updated!')
 
-	# For each batch of training data...
-	for step, batch in enumerate(iterator):
+    return load_model(model_file, model.hidden_channels, model.num_layers)
 
-	    # to gpu
+def train_epoch(model: GNNTE, train_dataloader: DataLoader, optimizer: torch.optim.Optimizer, criterion: nn.MSELoss, device: str) -> torch.Tensor:
+    total_loss = 0
+    model.train()
+    
+    # For each batch of training data...
+    for batch in train_dataloader:
+        # Forward
+        optimizer.zero_grad()
+        emb_l = model(batch[0].to(device))
+        emb_r = model(batch[1].to(device))
 
-	    # Forward
-	    optimizer.zero_grad()
-	    outputs = model(...)
+        predictions = F.cosine_similarity(emb_l, emb_r, dim=1)
 
-	    # Loss
-	    loss = criterion(outputs, y)
-	    total_loss += loss.item()
+        y = batch[2].to(device)
 
-	    # Perform a backward pass to calculate gradients
-	    loss.backward()
+        # Loss
+        loss = criterion(predictions, y)
+        total_loss += loss.item()
 
+        # Perform a backward pass to calculate gradients
+        loss.backward()
 
-	    # Update parameters and the learning rate
-	    optimizer.step()
+        # Update parameters and the learning rate
+        optimizer.step()
 
-	# Calculate the average loss over the entire training data
-	avg_train_loss = total_loss / len(iterator)
+    # # Calculate the average loss over the entire training data
+    avg_train_loss = total_loss / len(train_dataloader)
 
-	return avg_train_loss
+    return avg_train_loss
 
-
->> eval_epoch
 def eval_epoch(model, valid_dataloader, criterion, device):
     avg_loss = 0.0
     model.eval()
 
     with torch.no_grad():
-        for j, batch in enumerate(iterator):
+        for batch in valid_dataloader:
             # to device
+            emb_l = model(batch[0].to(device))
+            emb_r = model(batch[1].to(device))
 
-            outputs = model(...)
-            loss = criterion(outputs, y)
+            predictions = F.cosine_similarity(emb_l, emb_r, dim=1)
+
+            y = batch[2].to(device)
+
+            # Loss
+            loss = criterion(predictions, y)
 
             avg_loss += loss.item()
 
-    avg_loss = avg_loss / len(iterator)
+    avg_loss = avg_loss / len(valid_dataloader)
 
     return avg_loss
 
-
-#_____________TEST____________________________
-main
-    eval_loader = DataLoader(eval_data, batch_size=args.batch_size,  num_workers=4, shuffle=False)
+def test(model: GNNTE, test_dataset: GraphTriplesDataset, batch_size: int=64, 
+         num_workers: int=0, shuffle: bool=False) -> torch.Tensor:
+    
+    eval_loader = DataLoader(test_dataset, 
+                             batch_size=batch_size,  
+                             num_workers=num_workers, 
+                             shuffle=shuffle)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -136,28 +214,32 @@ main
     # to device
 
     y_pred, y_true = model_inference(
-        model=model,
-        iterator=eval_loader,
-        device=device
+        model,
+        eval_loader,
+        device
     )
+    mse = F.mse_loss(y_pred, y_true.to(device))
+    print(f'MSE: {mse}')
+    return mse
 
-
->> model_inference
 def model_inference(model, data_loader, device):
     model.eval()
 
     y_pred = None
     y_true = None
     with torch.no_grad():
-        for j, batch in enumerate(data_loader):
+        for batch in data_loader:
             # to device
 
-            logits = model(x) #predictions
+            emb_l = model(batch[0].to(device))
+            emb_r = model(batch[1].to(device))
 
-            # Save the predictions and the labels
+            logits = F.cosine_similarity(emb_l, emb_r, dim=1)
+            y = batch[2]
+                # Save the predictions and the labels
             if y_pred is None:
-                y_pred = logits  # FIXME: convert to predictions
-                y_true = y
+                y_pred = logits  
+                y_true = batch[2]
             else:
                 y_pred = torch.cat((y_pred, logits))
                 y_true = torch.cat((y_true, y))
@@ -167,36 +249,14 @@ def model_inference(model, data_loader, device):
 
 
 
-
-#____________________________________________________________________________________________________________________
-def train_model(model: GNNTE, epoches: int=100,lr: float=0.005, weight_decay: float=5e-4):
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-    for epoch in range(1, 201):
-        loss = train()
-        acc = test()
-        print(f'Epoch: {epoch:02d}, Loss: {loss:.4f}, Acc: {acc:.4f}')
-
-def train(model:GNNTE, optimizer:torch.optimizer, loader:DataLoader, device:str)->float:
-    model.train()
-    total_loss = 0
-    for pos_rw, neg_rw in tqdm(loader):
-        optimizer.zero_grad()
-        loss = model.loss(pos_rw.to(device), neg_rw.to(device))
-        loss.backward()
-        optimizer.step()
-        total_loss += loss.item()
-    return total_loss / len(loader)
-
-@torch.no_grad()
-def test(model:GNNTE):
-    model.eval()
-    z = model()
-    acc = model.test(z[data.train_mask], data.y[data.train_mask],
-                     z[data.test_mask], data.y[data.test_mask],
-                     max_iter=150)
-    return acc
-
-
-
 if __name__ == "__main__":
-    pass
+    data = load_test_training_stuff("/dati/home/francesco.pugnaloni/wikipedia_tables/small_dataset_debug/triples.csv","/dati/home/francesco.pugnaloni/wikipedia_tables/small_dataset_debug/graphs.pkl")
+    l = []
+    for i in range(20):
+        l.append(train_test_pipeline("/dati/home/francesco.pugnaloni/wikipedia_tables/small_dataset_debug/triples.csv", "/dati/home/francesco.pugnaloni/wikipedia_tables/small_dataset_debug/graphs.pkl",
+                            "/dati/home/francesco.pugnaloni/tmp/checkpoint.pth",
+                            10, 3, num_epochs=10, batch_size=25
+                            )
+        )
+    print(l)
+    print('ok')
