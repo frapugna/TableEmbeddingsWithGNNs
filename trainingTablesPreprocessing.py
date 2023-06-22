@@ -18,6 +18,9 @@ def compute_table_ids(triples_dataset_path:str, output_file:str)->set:
     df = pd.read_csv(triples_dataset_path)
     index_list = []
     for i in tqdm(range(df.shape[0])):
+        # index_list.append(str(df['0'][i]))
+        # index_list.append(str(df['1'][i]))
+
         index_list.append(str(df['r_id'][i]))
         index_list.append(str(df['s_id'][i]))
 
@@ -131,9 +134,9 @@ if __name__ == '__main__':
     #                     "/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl"
     #                     )
     
-    # gd = generate_graph_dictionary("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl", "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_graphs_dict_with_id.pkl")
+    gd = generate_graph_dictionary("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl", "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_graphs_dict_with_id.pkl")
 
-    drop_small_tables("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl",
-                      "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples_no_ones.csv",
-                      "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples_no_small_tables.csv")
+    # drop_small_tables("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl",
+    #                   "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples_no_ones.csv",
+    #                   "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples_no_small_tables.csv")
     

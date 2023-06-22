@@ -89,6 +89,7 @@ class Graph_list(torch.utils.data.Dataset):
         except:
             raise Exception('Read operation failed')
         self.size = len(self.graph_list)
+        
     def save(self, directory_name):
         try:
             f1 = open(directory_name+'/graph_list.pkl', 'wb')
@@ -246,7 +247,7 @@ class Graph:
         self.edges = torch.tensor(self.edges, dtype=torch.long).to(device=device)
     
 if __name__ == "__main__":
-    from smallDatasetGenerator import *
+    from syntheticDatasetGenerator import load_test_training_stuff
     data = load_test_training_stuff("/home/francesco.pugnaloni/tmp/small_tables")
     t = data['tables']['25']
     t['1'] = [pd.NA, 15, pd.NA]

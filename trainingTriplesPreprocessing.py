@@ -2,6 +2,7 @@ from typing import Optional
 import pandas as pd
 from tqdm import tqdm
 from statistics import mean
+import random
 
 def deduplicate_hybrid(df:pd.DataFrame)->pd.DataFrame:
     df = df.sort_values('r_id')
