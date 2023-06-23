@@ -1,0 +1,164 @@
+{
+    "os": "Linux-5.10.0-23-amd64-x86_64-with-glibc2.31",
+    "python": "3.11.3",
+    "heartbeatAt": "2023-06-23T09:20:06.151005",
+    "startedAt": "2023-06-23T09:20:05.472754",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/experiments.py",
+    "git": {
+        "remote": "https://github.com/frapugna/TableEmbeddingsWithGNNs.git",
+        "commit": "e52ba35ce7eea46467a5d044571e739b7b2b7dca"
+    },
+    "email": null,
+    "root": "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs",
+    "host": "sparc20",
+    "username": "francesco.pugnaloni",
+    "executable": "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/bin/python",
+    "cpu_count": 12,
+    "cpu_count_logical": 24,
+    "cpu_freq": {
+        "current": 823.5681666666668,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 800.157,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.227,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.148,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.138,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 803.167,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 816.688,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.618,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.852,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.19,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.121,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 808.405,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 904.323,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.125,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.513,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 801.234,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.538,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 854.682,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 839.835,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.123,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.05,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.551,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 800.269,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 803.723,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 1128.959,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "total": 223.40916442871094,
+        "used": 15.011360168457031
+    },
+    "gpu": "Tesla T4",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "Tesla T4",
+            "memory_total": 15843721216
+        }
+    ],
+    "memory": {
+        "total": 187.19036865234375
+    }
+}

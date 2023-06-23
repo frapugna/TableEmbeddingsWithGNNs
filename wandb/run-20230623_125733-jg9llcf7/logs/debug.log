@@ -1,0 +1,34 @@
+2023-06-23 12:57:33,306 INFO    MainThread:4071509 [wandb_setup.py:_flush():76] Current SDK version is 0.15.4
+2023-06-23 12:57:33,306 INFO    MainThread:4071509 [wandb_setup.py:_flush():76] Configure stats pid to 4071509
+2023-06-23 12:57:33,306 INFO    MainThread:4071509 [wandb_setup.py:_flush():76] Loading settings from /home/francesco.pugnaloni/.config/wandb/settings
+2023-06-23 12:57:33,306 INFO    MainThread:4071509 [wandb_setup.py:_flush():76] Loading settings from /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/settings
+2023-06-23 12:57:33,306 INFO    MainThread:4071509 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-06-23 12:57:33,306 INFO    MainThread:4071509 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-06-23 12:57:33,307 WARNING MainThread:4071509 [wandb_setup.py:_flush():76] Could not save program above cwd: /home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py
+2023-06-23 12:57:33,307 INFO    MainThread:4071509 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': None, 'program': '/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py'}
+2023-06-23 12:57:33,307 INFO    MainThread:4071509 [wandb_init.py:_log_setup():507] Logging user logs to /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_125733-jg9llcf7/logs/debug.log
+2023-06-23 12:57:33,307 INFO    MainThread:4071509 [wandb_init.py:_log_setup():508] Logging internal logs to /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_125733-jg9llcf7/logs/debug-internal.log
+2023-06-23 12:57:33,307 INFO    MainThread:4071509 [wandb_init.py:init():547] calling init triggers
+2023-06-23 12:57:33,307 INFO    MainThread:4071509 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {'dataset': '/home/francesco.pugnaloni/wikipedia_tables/small_tables/1000_samples', 'batch_size': 128, 'learning_rate': 0.001, 'num_epochs': 30, 'out_channels': 300, 'n_layers': 3, 'dropout': 0}
+2023-06-23 12:57:33,307 INFO    MainThread:4071509 [wandb_init.py:init():596] starting backend
+2023-06-23 12:57:33,307 INFO    MainThread:4071509 [wandb_init.py:init():600] setting up manager
+2023-06-23 12:57:33,309 INFO    MainThread:4071509 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-06-23 12:57:33,311 INFO    MainThread:4071509 [wandb_init.py:init():606] backend started and connected
+2023-06-23 12:57:33,313 INFO    MainThread:4071509 [wandb_init.py:init():703] updated telemetry
+2023-06-23 12:57:33,320 INFO    MainThread:4071509 [wandb_init.py:init():736] communicating run to backend with 60.0 second timeout
+2023-06-23 12:57:33,733 INFO    MainThread:4071509 [wandb_run.py:_on_init():2176] communicating current version
+2023-06-23 12:57:33,810 INFO    MainThread:4071509 [wandb_run.py:_on_init():2185] got version response 
+2023-06-23 12:57:33,810 INFO    MainThread:4071509 [wandb_init.py:init():787] starting run threads in backend
+2023-06-23 12:57:38,355 INFO    MainThread:4071509 [wandb_run.py:_console_start():2155] atexit reg
+2023-06-23 12:57:38,355 INFO    MainThread:4071509 [wandb_run.py:_redirect():2010] redirect: 3
+2023-06-23 12:57:38,355 INFO    MainThread:4071509 [wandb_run.py:_redirect():2075] Wrapping output streams.
+2023-06-23 12:57:38,356 INFO    MainThread:4071509 [wandb_run.py:_redirect():2100] Redirects installed.
+2023-06-23 12:57:38,356 INFO    MainThread:4071509 [wandb_init.py:init():828] run started, returning control to user process
+2023-06-23 12:58:09,081 INFO    MainThread:4071509 [wandb_run.py:_finish():1890] finishing run unimore-team/GNNTE/jg9llcf7
+2023-06-23 12:58:09,082 INFO    MainThread:4071509 [wandb_run.py:_atexit_cleanup():2124] got exitcode: 0
+2023-06-23 12:58:09,083 INFO    MainThread:4071509 [wandb_run.py:_restore():2107] restore
+2023-06-23 12:58:09,083 INFO    MainThread:4071509 [wandb_run.py:_restore():2113] restore done
+2023-06-23 12:58:13,034 INFO    MainThread:4071509 [wandb_run.py:_footer_history_summary_info():3467] rendering history
+2023-06-23 12:58:13,035 INFO    MainThread:4071509 [wandb_run.py:_footer_history_summary_info():3499] rendering summary
+2023-06-23 12:58:13,041 INFO    MainThread:4071509 [wandb_run.py:_footer_sync_info():3426] logging synced files

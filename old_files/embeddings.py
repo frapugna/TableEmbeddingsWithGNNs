@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 from graph import *
 from node_embeddings import *
-
+import time
 class GraphDataset(torch.utils.data.Dataset):
     def __init__(self, directory_name=False,save=False, load=False):
         if directory_name:
@@ -48,6 +48,7 @@ class GraphDataset(torch.utils.data.Dataset):
             f1.close()
         except:
             raise Exception('Write operation failed')
+        
 def train(model, loader, optimizer, device):
     model.train()
     total_loss = 0
@@ -58,6 +59,7 @@ def train(model, loader, optimizer, device):
         optimizer.step()
         total_loss += loss.item()
     return total_loss / len(loader)
+
 @torch.no_grad()
 def test(model, X_train, y_train, X_test, y_test):
     model.eval()
@@ -66,46 +68,47 @@ def test(model, X_train, y_train, X_test, y_test):
                      z[data.test_mask], data.y[data.test_mask],
                      max_iter=150)
     return acc
+
 class EmbeddingGenerator:
     def __init__(self, model_name='GIN', in_channels=-1, hidden_channels=128,num_layers=5, out_channels=None):
         self.model_name = model_name
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.model = GIN(in_channels=in_channels, hidden_channels=hidden_channels,num_layers=num_layers, out_channels=out_channels).to(device)
     
-    def __train__(self, n_epochs=100):
-        optimizer = torch.optim.Adam(self.model.parameters(), lr=0.005, weight_decay=5e-4)
+    # def __train__(self, n_epochs=100):
+    #     optimizer = torch.optim.Adam(self.model.parameters(), lr=0.005, weight_decay=5e-4)
 
-        self.model.train()
-        for epoch in range(2):
-            self.model.train()
-            optimizer.zero_grad()
-            #out = self.model(data.x, data.edge_index)
-            loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
+    #     self.model.train()
+    #     for epoch in range(2):
+    #         self.model.train()
+    #         optimizer.zero_grad()
+    #         #out = self.model(data.x, data.edge_index)
+    #         loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
             
-            if epoch%200 == 100:
-                print(loss)
+    #         if epoch%200 == 100:
+    #             print(loss)
             
-            loss.backward()
-            optimizer.step()
+    #         loss.backward()
+    #         optimizer.step()
         #_____________________________________________________________________________________________________
-        start = time.time()
+    #     start = time.time()
 
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    #     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-        t_start_epoch = 0    #debug
-        loader = model.loader(batch_size=batch_size, shuffle=True, num_workers=num_workers) #Generate loader
-        optimizer = torch.optim.Adam(self.model.parameters(), lr=0.005, weight_decay=5e-4)
-        print('Training is starting')
-        for epoch in range(1, n_epochs):
-            loss = train(self.model, loader, optimizer, device)
-            acc = test()
-        end = time.time()
+    #     t_start_epoch = 0    #debug
+    #     loader = model.loader(batch_size=batch_size, shuffle=True, num_workers=num_workers) #Generate loader
+    #     optimizer = torch.optim.Adam(self.model.parameters(), lr=0.005, weight_decay=5e-4)
+    #     print('Training is starting')
+    #     for epoch in range(1, n_epochs):
+    #         loss = train(self.model, loader, optimizer, device)
+    #         acc = test()
+    #     end = time.time()
 
-        print(f'T_exec embedding generation: {end-start}s')
+    #     print(f'T_exec embedding generation: {end-start}s')
 
-    def __call__(self, X, edges):
-        with torch.no_grad():
-            return self.model(X,edges).mean(dim=0)
+    # def __call__(self, X, edges):
+    #     with torch.no_grad():
+    #         return self.model(X,edges).mean(dim=0)
 
 if __name__ == "__main__":
     df1 = pd.read_csv(r"C:\Users\frapu\Desktop\TableEmbeddingsWithGNNs\Datasets\testAB.csv")

@@ -1,0 +1,464 @@
+2023-06-23 15:36:41,702 INFO    StreamThr :32518 [internal.py:wandb_internal():86] W&B internal server running at pid: 32518, started at: 2023-06-23 15:36:41.701566
+2023-06-23 15:36:41,705 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status
+2023-06-23 15:36:41,708 INFO    WriterThread:32518 [datastore.py:open_for_write():85] open: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/run-enkwerqh.wandb
+2023-06-23 15:36:41,709 DEBUG   SenderThread:32518 [sender.py:send():369] send: header
+2023-06-23 15:36:41,710 DEBUG   SenderThread:32518 [sender.py:send():369] send: run
+2023-06-23 15:36:42,255 INFO    SenderThread:32518 [dir_watcher.py:__init__():211] watching files in: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files
+2023-06-23 15:36:42,255 INFO    SenderThread:32518 [sender.py:_start_run_threads():1100] run started: enkwerqh with start time 1687527400.802981
+2023-06-23 15:36:42,264 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:36:42,265 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:36:42,268 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: check_version
+2023-06-23 15:36:42,269 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: check_version
+2023-06-23 15:36:42,355 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: run_start
+2023-06-23 15:36:42,358 DEBUG   HandlerThread:32518 [system_info.py:__init__():31] System info init
+2023-06-23 15:36:42,358 DEBUG   HandlerThread:32518 [system_info.py:__init__():46] System info init done
+2023-06-23 15:36:42,358 INFO    HandlerThread:32518 [system_monitor.py:start():181] Starting system monitor
+2023-06-23 15:36:42,358 INFO    SystemMonitor:32518 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2023-06-23 15:36:42,358 INFO    HandlerThread:32518 [system_monitor.py:probe():201] Collecting system info
+2023-06-23 15:36:42,359 INFO    SystemMonitor:32518 [interfaces.py:start():190] Started cpu monitoring
+2023-06-23 15:36:42,360 INFO    SystemMonitor:32518 [interfaces.py:start():190] Started disk monitoring
+2023-06-23 15:36:42,361 INFO    SystemMonitor:32518 [interfaces.py:start():190] Started gpu monitoring
+2023-06-23 15:36:42,362 INFO    SystemMonitor:32518 [interfaces.py:start():190] Started memory monitoring
+2023-06-23 15:36:42,363 INFO    SystemMonitor:32518 [interfaces.py:start():190] Started network monitoring
+2023-06-23 15:36:42,399 DEBUG   HandlerThread:32518 [system_info.py:probe():195] Probing system
+2023-06-23 15:36:42,400 DEBUG   HandlerThread:32518 [system_info.py:_probe_git():180] Probing git
+2023-06-23 15:36:42,413 DEBUG   HandlerThread:32518 [system_info.py:_probe_git():188] Probing git done
+2023-06-23 15:36:42,413 DEBUG   HandlerThread:32518 [system_info.py:probe():240] Probing system done
+2023-06-23 15:36:42,413 DEBUG   HandlerThread:32518 [system_monitor.py:probe():210] {'os': 'Linux-5.10.0-23-amd64-x86_64-with-glibc2.31', 'python': '3.11.3', 'heartbeatAt': '2023-06-23T13:36:42.399623', 'startedAt': '2023-06-23T13:36:40.797621', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/experiments.py', 'codePath': 'experiments.py', 'git': {'remote': 'https://github.com/frapugna/TableEmbeddingsWithGNNs.git', 'commit': 'e52ba35ce7eea46467a5d044571e739b7b2b7dca'}, 'email': None, 'root': '/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs', 'host': 'sparc20', 'username': 'francesco.pugnaloni', 'executable': '/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/bin/python3', 'cpu_count': 12, 'cpu_count_logical': 24, 'cpu_freq': {'current': 830.8020416666668, 'min': 0.0, 'max': 0.0}, 'cpu_freq_per_core': [{'current': 913.99, 'min': 0.0, 'max': 0.0}, {'current': 844.409, 'min': 0.0, 'max': 0.0}, {'current': 800.23, 'min': 0.0, 'max': 0.0}, {'current': 800.067, 'min': 0.0, 'max': 0.0}, {'current': 816.243, 'min': 0.0, 'max': 0.0}, {'current': 800.011, 'min': 0.0, 'max': 0.0}, {'current': 800.107, 'min': 0.0, 'max': 0.0}, {'current': 1020.357, 'min': 0.0, 'max': 0.0}, {'current': 800.348, 'min': 0.0, 'max': 0.0}, {'current': 800.144, 'min': 0.0, 'max': 0.0}, {'current': 800.292, 'min': 0.0, 'max': 0.0}, {'current': 800.71, 'min': 0.0, 'max': 0.0}, {'current': 817.858, 'min': 0.0, 'max': 0.0}, {'current': 824.104, 'min': 0.0, 'max': 0.0}, {'current': 801.043, 'min': 0.0, 'max': 0.0}, {'current': 800.52, 'min': 0.0, 'max': 0.0}, {'current': 831.903, 'min': 0.0, 'max': 0.0}, {'current': 801.643, 'min': 0.0, 'max': 0.0}, {'current': 800.183, 'min': 0.0, 'max': 0.0}, {'current': 1063.362, 'min': 0.0, 'max': 0.0}, {'current': 800.501, 'min': 0.0, 'max': 0.0}, {'current': 800.696, 'min': 0.0, 'max': 0.0}, {'current': 800.419, 'min': 0.0, 'max': 0.0}, {'current': 800.109, 'min': 0.0, 'max': 0.0}], 'disk': {'total': 223.40916442871094, 'used': 15.034427642822266}, 'gpu': 'Tesla T4', 'gpu_count': 1, 'gpu_devices': [{'name': 'Tesla T4', 'memory_total': 15843721216}], 'memory': {'total': 187.19036865234375}}
+2023-06-23 15:36:42,413 INFO    HandlerThread:32518 [system_monitor.py:probe():211] Finished collecting system info
+2023-06-23 15:36:42,413 INFO    HandlerThread:32518 [system_monitor.py:probe():214] Publishing system info
+2023-06-23 15:36:42,413 DEBUG   HandlerThread:32518 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2023-06-23 15:36:42,413 DEBUG   HandlerThread:32518 [system_info.py:_save_pip():67] Saving pip packages done
+2023-06-23 15:36:42,413 DEBUG   HandlerThread:32518 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2023-06-23 15:36:43,266 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/conda-environment.yaml
+2023-06-23 15:36:43,267 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/requirements.txt
+2023-06-23 15:36:43,267 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:36:46,659 DEBUG   HandlerThread:32518 [system_info.py:_save_conda():86] Saving conda packages done
+2023-06-23 15:36:46,660 INFO    HandlerThread:32518 [system_monitor.py:probe():216] Finished publishing system info
+2023-06-23 15:36:46,661 DEBUG   SenderThread:32518 [sender.py:send():369] send: files
+2023-06-23 15:36:46,662 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-metadata.json with policy now
+2023-06-23 15:36:46,674 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:36:46,675 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:36:46,859 DEBUG   SenderThread:32518 [sender.py:send():369] send: telemetry
+2023-06-23 15:36:46,859 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:36:47,190 INFO    wandb-upload_0:32518 [upload_job.py:push():133] Uploaded file /tmp/tmpxx7fabhywandb/et08asyy-wandb-metadata.json
+2023-06-23 15:36:47,261 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/conda-environment.yaml
+2023-06-23 15:36:47,261 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-metadata.json
+2023-06-23 15:36:47,262 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:36:49,262 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:36:52,355 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:36:53,264 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:36:54,265 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:36:57,357 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:36:59,712 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:36:59,713 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:36:59,713 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:36:59,715 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:37:00,267 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:37:01,673 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:37:01,673 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:37:02,267 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:37:02,816 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:07,817 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:08,424 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:37:08,425 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:37:08,425 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:37:08,426 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:37:09,270 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:37:10,271 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:37:13,431 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:14,272 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/config.yaml
+2023-06-23 15:37:16,677 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:37:16,677 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:37:16,825 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:37:16,833 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:37:16,833 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:37:16,835 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:37:17,273 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:37:18,274 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:37:18,835 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:23,836 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:25,756 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:37:25,757 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:37:25,757 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:37:25,758 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:37:26,277 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:37:28,277 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:37:29,798 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:31,676 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:37:31,677 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:37:34,364 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:37:34,365 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:37:34,365 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:37:34,366 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:37:35,280 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:37:35,374 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:36,280 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:37:40,375 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:42,363 DEBUG   SystemMonitor:32518 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2023-06-23 15:37:42,365 DEBUG   SenderThread:32518 [sender.py:send():369] send: stats
+2023-06-23 15:37:43,009 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:37:43,009 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:37:43,010 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:37:43,010 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:37:43,283 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:37:46,019 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:46,284 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:37:46,677 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:37:46,677 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:37:51,607 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:37:51,608 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:37:51,608 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:37:51,608 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:37:51,610 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:37:52,286 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:37:54,287 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:37:56,650 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:00,189 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:38:00,190 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:38:00,190 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:38:00,191 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:38:00,289 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:38:01,677 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:38:01,678 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:38:01,824 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:02,289 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:38:06,824 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:08,864 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:38:08,865 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:38:08,866 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:38:08,867 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:38:09,292 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:38:10,292 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:38:11,868 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:12,365 DEBUG   SenderThread:32518 [sender.py:send():369] send: stats
+2023-06-23 15:38:16,677 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:38:16,678 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:38:17,632 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:38:17,633 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:38:17,633 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:38:17,633 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:17,633 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:38:18,295 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:38:20,296 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:38:22,674 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:26,542 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:38:26,543 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:38:26,543 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:38:26,543 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:38:27,299 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:38:28,299 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:38:28,552 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:31,677 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:38:31,678 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:38:33,834 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:35,946 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:38:35,947 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:38:35,947 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:38:35,948 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:38:36,302 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:38:38,303 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:38:38,990 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:42,366 DEBUG   SenderThread:32518 [sender.py:send():369] send: stats
+2023-06-23 15:38:44,367 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:45,331 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:38:45,332 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:38:45,332 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:38:45,333 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:38:46,305 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:38:46,678 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:38:46,678 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:38:48,306 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:38:49,828 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:54,029 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:38:54,030 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:38:54,031 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:38:54,031 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:38:54,309 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:38:55,074 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:38:56,310 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:39:00,075 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:01,678 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:39:01,678 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:39:02,698 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:39:02,699 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:39:02,699 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:39:02,700 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:39:03,312 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:39:04,313 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:39:05,742 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:10,743 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:11,406 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:39:11,407 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:39:11,407 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:39:11,407 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:39:12,316 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:39:12,367 DEBUG   SenderThread:32518 [sender.py:send():369] send: stats
+2023-06-23 15:39:14,316 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:39:16,369 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:16,678 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:39:16,679 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:39:19,933 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:39:19,934 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:39:19,934 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:39:19,934 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:39:20,318 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:39:21,943 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:22,319 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:39:26,944 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:28,498 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:39:28,499 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:39:28,499 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:39:28,501 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:39:29,322 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:39:30,322 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:39:31,677 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:39:31,678 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:39:32,829 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:37,046 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:39:37,046 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:39:37,047 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:39:37,047 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:39:37,324 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:39:38,090 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:40,325 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:39:42,368 DEBUG   SenderThread:32518 [sender.py:send():369] send: stats
+2023-06-23 15:39:43,369 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:45,438 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:39:45,439 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:39:45,439 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:39:45,440 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:39:46,327 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:39:46,678 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:39:46,678 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:39:48,328 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:39:48,824 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:53,825 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:39:54,002 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:39:54,003 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:39:54,003 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:39:54,004 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:39:54,330 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:39:56,331 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:39:59,046 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:01,678 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:40:01,679 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:40:03,104 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:40:03,105 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:40:03,105 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:40:03,105 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:40:03,333 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:40:04,146 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:06,334 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:40:09,146 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:11,682 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:40:11,683 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:40:11,683 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:40:11,684 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:40:12,336 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:40:12,369 DEBUG   SenderThread:32518 [sender.py:send():369] send: stats
+2023-06-23 15:40:14,337 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:40:14,371 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:16,678 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:40:16,679 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:40:19,831 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:20,165 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:40:20,165 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:40:20,166 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:40:20,167 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:40:20,339 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:40:22,340 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:40:25,168 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:28,617 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:40:28,617 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:40:28,617 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:40:28,618 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:40:29,343 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:40:30,343 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:40:30,626 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:31,679 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:40:31,680 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:40:35,830 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:37,058 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:40:37,059 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:40:37,059 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:40:37,060 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:40:37,347 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:40:38,348 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:40:41,102 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:42,369 DEBUG   SenderThread:32518 [sender.py:send():369] send: stats
+2023-06-23 15:40:45,645 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:40:45,646 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:40:45,646 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:40:45,647 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:40:46,352 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:40:46,647 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:46,678 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:40:46,679 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:40:48,352 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:40:51,830 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:40:54,098 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:40:54,099 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:40:54,099 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:40:54,099 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:40:54,354 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:40:56,355 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:40:57,100 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:41:01,679 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-23 15:41:01,679 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: stop_status
+2023-06-23 15:41:02,688 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:41:02,689 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:41:02,689 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:41:02,690 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:41:02,691 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:41:03,357 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:41:04,358 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:41:07,734 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:41:11,268 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: partial_history
+2023-06-23 15:41:11,269 DEBUG   SenderThread:32518 [sender.py:send():369] send: history
+2023-06-23 15:41:11,269 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:41:11,270 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:41:11,360 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:41:11,959 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:41:11,960 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:41:11,960 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:41:11,960 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:41:11,960 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: summary_record
+2023-06-23 15:41:11,960 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:41:12,123 DEBUG   SenderThread:32518 [sender.py:send():369] send: telemetry
+2023-06-23 15:41:12,132 DEBUG   SenderThread:32518 [sender.py:send():369] send: exit
+2023-06-23 15:41:12,132 INFO    SenderThread:32518 [sender.py:send_exit():574] handling exit code: 0
+2023-06-23 15:41:12,132 INFO    SenderThread:32518 [sender.py:send_exit():576] handling runtime: 269
+2023-06-23 15:41:12,133 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:41:12,133 INFO    SenderThread:32518 [sender.py:send_exit():582] send defer
+2023-06-23 15:41:12,134 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:12,134 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 0
+2023-06-23 15:41:12,135 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:12,135 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 0
+2023-06-23 15:41:12,135 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 1
+2023-06-23 15:41:12,135 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:12,135 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 1
+2023-06-23 15:41:12,136 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:12,136 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 1
+2023-06-23 15:41:12,136 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 2
+2023-06-23 15:41:12,137 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:12,137 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 2
+2023-06-23 15:41:12,137 INFO    HandlerThread:32518 [system_monitor.py:finish():190] Stopping system monitor
+2023-06-23 15:41:12,138 DEBUG   SystemMonitor:32518 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2023-06-23 15:41:12,138 DEBUG   SystemMonitor:32518 [system_monitor.py:_start():170] Publishing last batch of metrics
+2023-06-23 15:41:12,139 INFO    HandlerThread:32518 [interfaces.py:finish():202] Joined cpu monitor
+2023-06-23 15:41:12,140 INFO    HandlerThread:32518 [interfaces.py:finish():202] Joined disk monitor
+2023-06-23 15:41:12,255 INFO    HandlerThread:32518 [interfaces.py:finish():202] Joined gpu monitor
+2023-06-23 15:41:12,255 INFO    HandlerThread:32518 [interfaces.py:finish():202] Joined memory monitor
+2023-06-23 15:41:12,256 INFO    HandlerThread:32518 [interfaces.py:finish():202] Joined network monitor
+2023-06-23 15:41:12,257 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:12,257 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 2
+2023-06-23 15:41:12,257 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 3
+2023-06-23 15:41:12,257 DEBUG   SenderThread:32518 [sender.py:send():369] send: stats
+2023-06-23 15:41:12,257 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:12,258 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 3
+2023-06-23 15:41:12,259 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:12,259 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 3
+2023-06-23 15:41:12,259 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 4
+2023-06-23 15:41:12,260 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:12,260 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 4
+2023-06-23 15:41:12,260 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:12,261 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 4
+2023-06-23 15:41:12,261 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 5
+2023-06-23 15:41:12,261 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:12,261 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 5
+2023-06-23 15:41:12,262 DEBUG   SenderThread:32518 [sender.py:send():369] send: summary
+2023-06-23 15:41:12,263 INFO    SenderThread:32518 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-23 15:41:12,263 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:12,263 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 5
+2023-06-23 15:41:12,264 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 6
+2023-06-23 15:41:12,264 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:12,264 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 6
+2023-06-23 15:41:12,265 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:12,265 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 6
+2023-06-23 15:41:12,270 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: status_report
+2023-06-23 15:41:12,361 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:41:12,361 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:41:12,455 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 7
+2023-06-23 15:41:12,455 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:12,455 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 7
+2023-06-23 15:41:12,456 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:12,456 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 7
+2023-06-23 15:41:13,132 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: poll_exit
+2023-06-23 15:41:13,361 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:41:13,362 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/config.yaml
+2023-06-23 15:41:13,447 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 8
+2023-06-23 15:41:13,447 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: poll_exit
+2023-06-23 15:41:13,447 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:13,448 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 8
+2023-06-23 15:41:13,449 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:13,449 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 8
+2023-06-23 15:41:13,449 INFO    SenderThread:32518 [job_builder.py:build():232] Attempting to build job artifact
+2023-06-23 15:41:13,450 INFO    SenderThread:32518 [job_builder.py:build():256] is repo sourced job
+2023-06-23 15:41:13,453 INFO    SenderThread:32518 [job_builder.py:build():297] adding wandb-job metadata file
+2023-06-23 15:41:13,467 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 9
+2023-06-23 15:41:13,468 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:13,468 DEBUG   SenderThread:32518 [sender.py:send():369] send: artifact
+2023-06-23 15:41:13,468 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 9
+2023-06-23 15:41:14,133 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: poll_exit
+2023-06-23 15:41:14,328 INFO    SenderThread:32518 [sender.py:send_artifact():1450] sent artifact job-https___github.com_frapugna_TableEmbeddingsWithGNNs.git_experiments.py - {'id': 'QXJ0aWZhY3Q6NDk2NTQ0ODMy', 'digest': '08072f442e258281605a0bc333ef6b7d', 'state': 'COMMITTED', 'aliases': [{'artifactCollectionName': 'job-https___github.com_frapugna_TableEmbeddingsWithGNNs.git_experiments.py', 'alias': 'latest'}, {'artifactCollectionName': 'job-https___github.com_frapugna_TableEmbeddingsWithGNNs.git_experiments.py', 'alias': 'v1'}], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjc4NjgwMDA0', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NDk2NTQ0ODMy', 'versionIndex': 1}}, 'version': 'v1'}
+2023-06-23 15:41:14,328 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:14,328 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 9
+2023-06-23 15:41:14,328 INFO    SenderThread:32518 [dir_watcher.py:finish():359] shutting down directory watcher
+2023-06-23 15:41:14,362 INFO    Thread-98 :32518 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:41:14,363 INFO    SenderThread:32518 [dir_watcher.py:finish():389] scan: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files
+2023-06-23 15:41:14,364 INFO    SenderThread:32518 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/config.yaml config.yaml
+2023-06-23 15:41:14,364 INFO    SenderThread:32518 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json wandb-summary.json
+2023-06-23 15:41:14,364 INFO    SenderThread:32518 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/requirements.txt requirements.txt
+2023-06-23 15:41:14,376 INFO    SenderThread:32518 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/conda-environment.yaml conda-environment.yaml
+2023-06-23 15:41:14,376 INFO    SenderThread:32518 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-metadata.json wandb-metadata.json
+2023-06-23 15:41:14,377 INFO    SenderThread:32518 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log output.log
+2023-06-23 15:41:14,383 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 10
+2023-06-23 15:41:14,383 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: poll_exit
+2023-06-23 15:41:14,388 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:14,390 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 10
+2023-06-23 15:41:14,396 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:14,397 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 10
+2023-06-23 15:41:14,397 INFO    SenderThread:32518 [file_pusher.py:finish():159] shutting down file pusher
+2023-06-23 15:41:14,809 INFO    wandb-upload_0:32518 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/config.yaml
+2023-06-23 15:41:14,900 INFO    wandb-upload_1:32518 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/wandb-summary.json
+2023-06-23 15:41:14,950 INFO    wandb-upload_4:32518 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/output.log
+2023-06-23 15:41:14,962 INFO    wandb-upload_3:32518 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/conda-environment.yaml
+2023-06-23 15:41:15,134 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: poll_exit
+2023-06-23 15:41:15,135 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: poll_exit
+2023-06-23 15:41:15,355 INFO    wandb-upload_2:32518 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/files/requirements.txt
+2023-06-23 15:41:15,556 INFO    Thread-97 (_thread_body):32518 [sender.py:transition_state():602] send defer: 11
+2023-06-23 15:41:15,556 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:15,557 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 11
+2023-06-23 15:41:15,558 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:15,558 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 11
+2023-06-23 15:41:15,558 INFO    SenderThread:32518 [file_pusher.py:join():164] waiting for file pusher
+2023-06-23 15:41:15,558 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 12
+2023-06-23 15:41:15,559 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:15,559 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 12
+2023-06-23 15:41:15,559 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:15,560 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 12
+2023-06-23 15:41:15,778 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 13
+2023-06-23 15:41:15,779 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:15,779 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 13
+2023-06-23 15:41:15,779 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:15,779 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 13
+2023-06-23 15:41:15,780 INFO    SenderThread:32518 [sender.py:transition_state():602] send defer: 14
+2023-06-23 15:41:15,781 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: defer
+2023-06-23 15:41:15,781 DEBUG   SenderThread:32518 [sender.py:send():369] send: final
+2023-06-23 15:41:15,781 INFO    HandlerThread:32518 [handler.py:handle_request_defer():170] handle defer: 14
+2023-06-23 15:41:15,781 DEBUG   SenderThread:32518 [sender.py:send():369] send: footer
+2023-06-23 15:41:15,782 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: defer
+2023-06-23 15:41:15,782 INFO    SenderThread:32518 [sender.py:send_request_defer():598] handle sender defer: 14
+2023-06-23 15:41:15,784 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: poll_exit
+2023-06-23 15:41:15,784 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: poll_exit
+2023-06-23 15:41:15,785 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: server_info
+2023-06-23 15:41:15,786 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: get_summary
+2023-06-23 15:41:15,786 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: sampled_history
+2023-06-23 15:41:15,786 DEBUG   SenderThread:32518 [sender.py:send_request():396] send_request: server_info
+2023-06-23 15:41:15,935 DEBUG   HandlerThread:32518 [handler.py:handle_request():144] handle_request: shutdown
+2023-06-23 15:41:15,936 INFO    HandlerThread:32518 [handler.py:finish():854] shutting down handler
+2023-06-23 15:41:16,786 INFO    WriterThread:32518 [datastore.py:close():298] close: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230623_153640-enkwerqh/run-enkwerqh.wandb
+2023-06-23 15:41:16,934 INFO    SenderThread:32518 [sender.py:finish():1526] shutting down sender
+2023-06-23 15:41:16,934 INFO    SenderThread:32518 [file_pusher.py:finish():159] shutting down file pusher
+2023-06-23 15:41:16,935 INFO    SenderThread:32518 [file_pusher.py:join():164] waiting for file pusher

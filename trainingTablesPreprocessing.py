@@ -8,19 +8,33 @@ from graph import String_token_preprocessor
 from graph import Graph
 from node_embeddings import *
 
-# Load any compressed pickle file
+
 def decompress_pickle(file:str)->list:
+    """Function to load a pickle file that is also compressed using bz2
+
+    Args:
+        file (str): path to the file
+
+    Returns:
+        list: list containing dictionary associated to wikipedia tables
+    """
     data = bz2.BZ2File(file, 'rb')
     data = cPickle.load(data)
     return data
 
 def compute_table_ids(triples_dataset_path:str, output_file:str)->set:
+    """Provided a triple file the id of the table that appear in the triples are provided
+
+    Args:
+        triples_dataset_path (str): path to the dataset containing the triples
+        output_file (str): path to the file where to save the generated indexes
+
+    Returns:
+        set: set containing the indexes
+    """
     df = pd.read_csv(triples_dataset_path)
     index_list = []
     for i in tqdm(range(df.shape[0])):
-        # index_list.append(str(df['0'][i]))
-        # index_list.append(str(df['1'][i]))
-
         index_list.append(str(df['r_id'][i]))
         index_list.append(str(df['s_id'][i]))
 
@@ -30,10 +44,27 @@ def compute_table_ids(triples_dataset_path:str, output_file:str)->set:
     return tables_indexes
 
 def get_tables_ids(file:str)->set:
+    """Function to load the indexes set
+
+    Args:
+        file (str): path to the file containing the indexes
+
+    Returns:
+        set: set of the indexes
+    """
     with open(file, 'rb') as f:
         return pickle.load(f)
 
 def process_pickle(file:str, index_set:set)->dict:
+    """Function to generate from a pickle file and an index set a table dictionary 
+
+    Args:
+        file (str): path to the file containing the tables
+        index_set (set): set of the desired indexes
+
+    Returns:
+        dict: dictionary containing only the tables associated to the rpovided indexes
+    """
     in_list = decompress_pickle(file)
     table_dictionary = {}
     for t in in_list:
@@ -45,6 +76,16 @@ def process_pickle(file:str, index_set:set)->dict:
     return table_dictionary
 
 def process_all_pickles(directory_path:str, index_path:str, out_path:str)->dict:
+    """Function to process multiple pickle files
+
+    Args:
+        directory_path (str): path to the directory containing the pickle files
+        index_path (str): path to file containing the indexes
+        out_path (str): path to the file where to dump the dictionary 
+
+    Returns:
+        dict: the generated dictionary of tables
+    """
     ids = get_tables_ids(index_path)
     pickle_list = os.listdir(directory_path)
     out = {}
@@ -62,6 +103,14 @@ def process_all_pickles(directory_path:str, index_path:str, out_path:str)->dict:
     return out
 
 def get_empty_tables_ids(dlist:dict)->list:
+    """Function that provided a dictionary of tables returns th ids of the empty ones
+
+    Args:
+        dlist (dict): a table dictionary
+
+    Returns:
+        list: the list of the indexes of the empty tables
+    """
     count_none = 0
     out = []
     for k in tqdm(dlist.keys()):
@@ -73,6 +122,17 @@ def get_empty_tables_ids(dlist:dict)->list:
     return out
 
 def drop_small_tables(table_file:str, old_triple_file:str,new_triple_file_out:str, dim_min:int=3)->pd.DataFrame:
+    """Function to generate a new table dictionary from a rpovided one dropping all the "small tables"
+
+    Args:
+        table_file (str): path do the file containing the table dictionary
+        old_triple_file (str): path to the old triple file
+        new_triple_file_out (str): path to the new triple file
+        dim_min (int, optional): lower band of the dimension of the tables to extract. Defaults to 3.
+
+    Returns:
+        pd.DataFrame: new dataset containg only table that are not small
+    """
     with open(table_file,'rb') as f:
         tables = pickle.load(f)
     to_drop_key_list = []
@@ -99,6 +159,15 @@ def drop_small_tables(table_file:str, old_triple_file:str,new_triple_file_out:st
     
 
 def generate_graph_dictionary(table_dict_path:str, out_path:str)->dict:
+    """Generate a graph dictionary from a table dictionary
+
+    Args:
+        table_dict_path (str): path to the table dictionary
+        out_path (str): path to the file where to save the new graph dictionary
+
+    Returns:
+        dict: the generated graph dictionary
+    """
     with open(table_dict_path,'rb') as f:
         table_dict = pickle.load(f)
     
@@ -139,4 +208,3 @@ if __name__ == '__main__':
     # drop_small_tables("/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/full_table_dict_with_id.pkl",
     #                   "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples_no_ones.csv",
     #                   "/dati/home/francesco.pugnaloni/wikipedia_tables/processed_tables/test_samples_no_small_tables.csv")
-    

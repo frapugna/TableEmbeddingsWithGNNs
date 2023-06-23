@@ -4,7 +4,15 @@ from tqdm import tqdm
 from statistics import mean
 import random
 
-def deduplicate_hybrid(df:pd.DataFrame)->pd.DataFrame:
+def deduplicate_hybrid(df: pd.DataFrame) -> pd.DataFrame:
+    """Deduplicate the dataset containing non exact table overlaps
+
+    Args:
+        df (pd.DataFrame): path to the old triple dataset
+
+    Returns:
+        pd.DataFrame: the new triple dataset
+    """
     df = df.sort_values('r_id')
     to_drop = []
     i = 0
@@ -18,7 +26,7 @@ def deduplicate_hybrid(df:pd.DataFrame)->pd.DataFrame:
         i+=1
     return df.drop(to_drop)    
 
-def prepare_triple_file(input_file:str, output_file:str, is_hybrid=False)->None:
+def prepare_triple_file(input_file: str, output_file: str, is_hybrid=False) -> None:
     """
         ____Deprecated____
     """
@@ -40,7 +48,25 @@ def prepare_triple_file(input_file:str, output_file:str, is_hybrid=False)->None:
         raise Exception('Write operation failed') 
     print('Write operation succeded')
 
-def rebalance_triple_file(input_file:str, output_file:str,thresholds:Optional[int]=None, set_thresholds:bool=False, drop_1:bool=True)->pd.DataFrame:
+def rebalance_triple_file(input_file: str, output_file: str,thresholds: Optional[int]=None, set_thresholds: bool=False, drop_1: bool=True) -> pd.DataFrame:
+    """Balance the overlap distribution in the dataset
+
+    Args:
+        input_file (str): path to the unbalanced dataset
+        output_file (str): path to the file where to save the balanced dataset
+        thresholds (Optional[int], optional): __Not implemented__. Defaults to None.
+        set_thresholds (bool, optional): __Not implemented. Defaults to False.
+        drop_1 (bool, optional): drop all the triple with table overlap equal to 1. Defaults to True.
+
+    Raises:
+        Exception: raised if the path to the dataset file is wrong
+        Exception: NotImplemented
+        NotImplementedError: NotImplemented
+        Exception: raised if the write operation fails
+
+    Returns:
+        pd.DataFrame: the rebalanced dataset
+    """
     try:
         df = pd.read_csv(input_file)
     except:
@@ -64,7 +90,18 @@ def rebalance_triple_file(input_file:str, output_file:str,thresholds:Optional[in
     print('Write operation succeded')
     return df_out
 
-def generate_thresholded_dataset(path_in:str,  path_out:str, granularity:float=0.1, strategy:str='min'):
+def generate_thresholded_dataset(path_in:str,  path_out:str, granularity:float=0.1, strategy:str='min') -> None:
+    """The dataset is divided in bins and a threshold is applied on their numbers of elements
+
+    Args:
+        path_in (str): path to the input dataset
+        path_out (str): path to the file where to save the new dataset
+        granularity (float, optional): size of the bins (percentual). Defaults to 0.1.
+        strategy (str, optional): thresholding strategy {'min', 'mean'}. Defaults to 'min'.
+
+    Raises:
+        Exception: raised if the write operation fails
+    """
     df = pd.read_csv(path_in)
     d = {}
     print('Bins computation starts')
@@ -99,7 +136,22 @@ def generate_thresholded_dataset(path_in:str,  path_out:str, granularity:float=0
         raise Exception('Write operation failed') 
     print('Write operation succeded')
 
-def generate_full_triple_dataset(path_base:str, path_hybrid:str, path_out:str)->pd.DataFrame:
+def generate_full_triple_dataset(path_base: str, path_hybrid: str, path_out: str) -> pd.DataFrame:
+    """_summary_
+
+    Args:
+        path_base (str): path to the clean triple dataset
+        path_hybrid (str): path to the dirty triple dataset
+        path_out (str): path to the file where to save the new triple dataset
+
+    Raises:
+        Exception: raised if the clen path is wrong
+        Exception: raised if the dirty path is wrong
+        Exception: raised if the write operation fails
+
+    Returns:
+        pd.DataFrame: the new triple dataset
+    """
     try:
         df_base = pd.read_csv(path_base)
     except:
@@ -128,7 +180,16 @@ def generate_full_triple_dataset(path_base:str, path_hybrid:str, path_out:str)->
 
     return df_out
 
-def generate_csv_min_mean(path_in, out_directory, agg=['min','mean'], gran=[0.1,0.01], name=['01','001']):
+def generate_csv_min_mean(path_in: str, out_directory: str, agg: list=['min','mean'], gran: list=[0.1,0.01], name: list=['01','001']) -> None:
+    """Generate datasets using different strategies
+
+    Args:
+        path_in (str): path to the old dataset
+        out_directory (str): path to the directory where to save the new datasets
+        agg (list, optional): list of strategies to use. Defaults to ['min','mean'].
+        gran (list, optional): list of granularities to use. Defaults to [0.1,0.01].
+        name (list, optional): names. Defaults to ['01','001'].
+    """
     for i in range(len(gran)):
         for j in range(len(agg)):
             generate_thresholded_dataset(path_in=path_in,
@@ -136,7 +197,17 @@ def generate_csv_min_mean(path_in, out_directory, agg=['min','mean'], gran=[0.1,
                                 granularity=gran[i],
                                 strategy=agg[j])
             
-def extract_exact_overlap(df:pd.DataFrame, limit:int, threshold:float)->pd.DataFrame:
+def extract_exact_overlap(df: pd.DataFrame, limit: int, threshold: float) -> pd.DataFrame:
+    """Generate a new dataset
+
+    Args:
+        df (pd.DataFrame): the full triple dataset
+        limit (int): limit number
+        threshold (float): similarity threshold
+
+    Returns:
+        pd.DataFrame: the new dataset
+    """
     count = 0
     out_list = []
     df = df.sample(frac=1, random_state=42).reset_index(drop=True)
@@ -175,7 +246,7 @@ def show_samples_distribution(df:pd.DataFrame, granularity:float=0.1)->dict:
                     ha='center', va='bottom')
     return d
 
-def describe_samples_distribution(df:pd.DataFrame, granularity:float=0.1)->dict:
+def describe_samples_distribution(df: pd.DataFrame, granularity: float=0.1) -> dict:
     """The dataset is divided in bins based on sample's table overlap
 
     Args:
@@ -203,7 +274,7 @@ def describe_samples_distribution(df:pd.DataFrame, granularity:float=0.1)->dict:
     
     return out
 
-def re_generate_triple_datasets(input_file_base:str, input_file_hybrid:str, out_directory:str)->None:
+def re_generate_triple_datasets(input_file_base: str, input_file_hybrid: str, out_directory: str) -> None:
     
     """This function perform all the preprocessing pipeline necessary to obtain the triples file necesessary for the training of the model:
     * test_samples_dirty.csv
