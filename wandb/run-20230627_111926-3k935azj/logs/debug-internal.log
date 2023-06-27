@@ -1,0 +1,188 @@
+2023-06-27 11:19:26,162 INFO    StreamThr :4183644 [internal.py:wandb_internal():86] W&B internal server running at pid: 4183644, started at: 2023-06-27 11:19:26.161948
+2023-06-27 11:19:26,165 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: status
+2023-06-27 11:19:26,168 INFO    WriterThread:4183644 [datastore.py:open_for_write():85] open: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/run-3k935azj.wandb
+2023-06-27 11:19:26,172 DEBUG   SenderThread:4183644 [sender.py:send():369] send: header
+2023-06-27 11:19:26,172 DEBUG   SenderThread:4183644 [sender.py:send():369] send: run
+2023-06-27 11:19:26,690 INFO    SenderThread:4183644 [dir_watcher.py:__init__():211] watching files in: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files
+2023-06-27 11:19:26,690 INFO    SenderThread:4183644 [sender.py:_start_run_threads():1100] run started: 3k935azj with start time 1687857566.157643
+2023-06-27 11:19:26,690 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: summary_record
+2023-06-27 11:19:26,691 INFO    SenderThread:4183644 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-27 11:19:26,700 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: check_version
+2023-06-27 11:19:26,700 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: check_version
+2023-06-27 11:19:26,789 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: run_start
+2023-06-27 11:19:26,798 DEBUG   HandlerThread:4183644 [system_info.py:__init__():31] System info init
+2023-06-27 11:19:26,798 DEBUG   HandlerThread:4183644 [system_info.py:__init__():46] System info init done
+2023-06-27 11:19:26,798 INFO    HandlerThread:4183644 [system_monitor.py:start():181] Starting system monitor
+2023-06-27 11:19:26,799 INFO    SystemMonitor:4183644 [system_monitor.py:_start():145] Starting system asset monitoring threads
+2023-06-27 11:19:26,799 INFO    HandlerThread:4183644 [system_monitor.py:probe():201] Collecting system info
+2023-06-27 11:19:26,800 INFO    SystemMonitor:4183644 [interfaces.py:start():190] Started cpu monitoring
+2023-06-27 11:19:26,802 INFO    SystemMonitor:4183644 [interfaces.py:start():190] Started disk monitoring
+2023-06-27 11:19:26,804 INFO    SystemMonitor:4183644 [interfaces.py:start():190] Started gpu monitoring
+2023-06-27 11:19:26,805 INFO    SystemMonitor:4183644 [interfaces.py:start():190] Started memory monitoring
+2023-06-27 11:19:26,806 INFO    SystemMonitor:4183644 [interfaces.py:start():190] Started network monitoring
+2023-06-27 11:19:26,818 DEBUG   HandlerThread:4183644 [system_info.py:probe():195] Probing system
+2023-06-27 11:19:26,820 DEBUG   HandlerThread:4183644 [system_info.py:_probe_git():180] Probing git
+2023-06-27 11:19:26,831 DEBUG   HandlerThread:4183644 [system_info.py:_probe_git():188] Probing git done
+2023-06-27 11:19:26,831 DEBUG   HandlerThread:4183644 [system_info.py:probe():240] Probing system done
+2023-06-27 11:19:26,831 DEBUG   HandlerThread:4183644 [system_monitor.py:probe():210] {'os': 'Linux-5.10.0-23-amd64-x86_64-with-glibc2.31', 'python': '3.11.3', 'heartbeatAt': '2023-06-27T09:19:26.818980', 'startedAt': '2023-06-27T09:19:26.146566', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/experiments.py', 'codePath': 'experiments.py', 'git': {'remote': 'https://github.com/frapugna/TableEmbeddingsWithGNNs.git', 'commit': '682ca116a77c19d4dad34d9fb96ffdada77dbfac'}, 'email': None, 'root': '/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs', 'host': 'sparc20', 'username': 'francesco.pugnaloni', 'executable': '/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/bin/python3', 'cpu_count': 12, 'cpu_count_logical': 24, 'cpu_freq': {'current': 1000.304125, 'min': 0.0, 'max': 0.0}, 'cpu_freq_per_core': [{'current': 800.062, 'min': 0.0, 'max': 0.0}, {'current': 1086.796, 'min': 0.0, 'max': 0.0}, {'current': 800.036, 'min': 0.0, 'max': 0.0}, {'current': 800.027, 'min': 0.0, 'max': 0.0}, {'current': 931.866, 'min': 0.0, 'max': 0.0}, {'current': 800.116, 'min': 0.0, 'max': 0.0}, {'current': 1143.435, 'min': 0.0, 'max': 0.0}, {'current': 1303.904, 'min': 0.0, 'max': 0.0}, {'current': 801.978, 'min': 0.0, 'max': 0.0}, {'current': 799.862, 'min': 0.0, 'max': 0.0}, {'current': 1126.974, 'min': 0.0, 'max': 0.0}, {'current': 800.025, 'min': 0.0, 'max': 0.0}, {'current': 800.038, 'min': 0.0, 'max': 0.0}, {'current': 1030.295, 'min': 0.0, 'max': 0.0}, {'current': 800.209, 'min': 0.0, 'max': 0.0}, {'current': 800.148, 'min': 0.0, 'max': 0.0}, {'current': 2267.246, 'min': 0.0, 'max': 0.0}, {'current': 800.031, 'min': 0.0, 'max': 0.0}, {'current': 1540.77, 'min': 0.0, 'max': 0.0}, {'current': 1237.006, 'min': 0.0, 'max': 0.0}, {'current': 800.736, 'min': 0.0, 'max': 0.0}, {'current': 800.05, 'min': 0.0, 'max': 0.0}, {'current': 1135.62, 'min': 0.0, 'max': 0.0}, {'current': 800.069, 'min': 0.0, 'max': 0.0}], 'disk': {'total': 223.40916442871094, 'used': 14.988174438476562}, 'gpu': 'Tesla T4', 'gpu_count': 1, 'gpu_devices': [{'name': 'Tesla T4', 'memory_total': 15843721216}], 'memory': {'total': 187.19036865234375}}
+2023-06-27 11:19:26,831 INFO    HandlerThread:4183644 [system_monitor.py:probe():211] Finished collecting system info
+2023-06-27 11:19:26,831 INFO    HandlerThread:4183644 [system_monitor.py:probe():214] Publishing system info
+2023-06-27 11:19:26,831 DEBUG   HandlerThread:4183644 [system_info.py:_save_pip():51] Saving list of pip packages installed into the current environment
+2023-06-27 11:19:26,832 DEBUG   HandlerThread:4183644 [system_info.py:_save_pip():67] Saving pip packages done
+2023-06-27 11:19:26,832 DEBUG   HandlerThread:4183644 [system_info.py:_save_conda():74] Saving list of conda packages installed into the current environment
+2023-06-27 11:19:27,693 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/conda-environment.yaml
+2023-06-27 11:19:27,693 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/wandb-summary.json
+2023-06-27 11:19:27,694 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/requirements.txt
+2023-06-27 11:19:31,155 DEBUG   HandlerThread:4183644 [system_info.py:_save_conda():86] Saving conda packages done
+2023-06-27 11:19:31,156 INFO    HandlerThread:4183644 [system_monitor.py:probe():216] Finished publishing system info
+2023-06-27 11:19:31,161 DEBUG   SenderThread:4183644 [sender.py:send():369] send: files
+2023-06-27 11:19:31,161 INFO    SenderThread:4183644 [sender.py:_save_file():1354] saving file wandb-metadata.json with policy now
+2023-06-27 11:19:31,176 DEBUG   SenderThread:4183644 [sender.py:send():369] send: telemetry
+2023-06-27 11:19:31,177 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: stop_status
+2023-06-27 11:19:31,178 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: status_report
+2023-06-27 11:19:31,178 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: stop_status
+2023-06-27 11:19:31,693 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/conda-environment.yaml
+2023-06-27 11:19:31,693 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/output.log
+2023-06-27 11:19:31,694 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_created():272] file/dir created: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/wandb-metadata.json
+2023-06-27 11:19:32,766 INFO    wandb-upload_0:4183644 [upload_job.py:push():133] Uploaded file /tmp/tmptlt050i2wandb/4m4lubwl-wandb-metadata.json
+2023-06-27 11:19:33,694 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/output.log
+2023-06-27 11:19:36,397 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: status_report
+2023-06-27 11:19:41,398 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: status_report
+2023-06-27 11:19:44,779 DEBUG   SenderThread:4183644 [sender.py:send():369] send: exit
+2023-06-27 11:19:44,779 INFO    SenderThread:4183644 [sender.py:send_exit():574] handling exit code: 255
+2023-06-27 11:19:44,779 INFO    SenderThread:4183644 [sender.py:send_exit():576] handling runtime: 17
+2023-06-27 11:19:44,782 INFO    SenderThread:4183644 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-27 11:19:44,783 INFO    SenderThread:4183644 [sender.py:send_exit():582] send defer
+2023-06-27 11:19:44,783 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:44,784 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 0
+2023-06-27 11:19:44,784 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:44,784 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 0
+2023-06-27 11:19:44,784 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 1
+2023-06-27 11:19:44,785 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:44,785 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 1
+2023-06-27 11:19:44,785 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:44,786 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 1
+2023-06-27 11:19:44,786 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 2
+2023-06-27 11:19:44,786 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:44,786 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 2
+2023-06-27 11:19:44,786 INFO    HandlerThread:4183644 [system_monitor.py:finish():190] Stopping system monitor
+2023-06-27 11:19:44,787 DEBUG   SystemMonitor:4183644 [system_monitor.py:_start():159] Starting system metrics aggregation loop
+2023-06-27 11:19:44,787 INFO    HandlerThread:4183644 [interfaces.py:finish():202] Joined cpu monitor
+2023-06-27 11:19:44,788 DEBUG   SystemMonitor:4183644 [system_monitor.py:_start():166] Finished system metrics aggregation loop
+2023-06-27 11:19:44,788 INFO    HandlerThread:4183644 [interfaces.py:finish():202] Joined disk monitor
+2023-06-27 11:19:44,789 DEBUG   SystemMonitor:4183644 [system_monitor.py:_start():170] Publishing last batch of metrics
+2023-06-27 11:19:44,909 INFO    HandlerThread:4183644 [interfaces.py:finish():202] Joined gpu monitor
+2023-06-27 11:19:44,909 INFO    HandlerThread:4183644 [interfaces.py:finish():202] Joined memory monitor
+2023-06-27 11:19:44,910 INFO    HandlerThread:4183644 [interfaces.py:finish():202] Joined network monitor
+2023-06-27 11:19:44,910 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:44,911 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 2
+2023-06-27 11:19:44,911 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 3
+2023-06-27 11:19:44,911 DEBUG   SenderThread:4183644 [sender.py:send():369] send: stats
+2023-06-27 11:19:44,911 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:44,912 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 3
+2023-06-27 11:19:44,913 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:44,913 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 3
+2023-06-27 11:19:44,913 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 4
+2023-06-27 11:19:44,913 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:44,914 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 4
+2023-06-27 11:19:44,914 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:44,914 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 4
+2023-06-27 11:19:44,914 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 5
+2023-06-27 11:19:44,915 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:44,915 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 5
+2023-06-27 11:19:44,915 DEBUG   SenderThread:4183644 [sender.py:send():369] send: summary
+2023-06-27 11:19:44,916 INFO    SenderThread:4183644 [sender.py:_save_file():1354] saving file wandb-summary.json with policy end
+2023-06-27 11:19:44,916 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:44,916 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 5
+2023-06-27 11:19:44,917 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 6
+2023-06-27 11:19:44,917 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:44,917 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 6
+2023-06-27 11:19:44,918 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:44,918 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 6
+2023-06-27 11:19:44,923 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: status_report
+2023-06-27 11:19:45,153 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 7
+2023-06-27 11:19:45,153 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:45,153 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 7
+2023-06-27 11:19:45,154 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:45,154 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 7
+2023-06-27 11:19:45,700 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/config.yaml
+2023-06-27 11:19:45,701 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/wandb-summary.json
+2023-06-27 11:19:45,779 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: poll_exit
+2023-06-27 11:19:46,742 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 8
+2023-06-27 11:19:46,742 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: poll_exit
+2023-06-27 11:19:46,742 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:46,743 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 8
+2023-06-27 11:19:46,744 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:46,744 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 8
+2023-06-27 11:19:46,744 INFO    SenderThread:4183644 [job_builder.py:build():232] Attempting to build job artifact
+2023-06-27 11:19:46,744 INFO    SenderThread:4183644 [job_builder.py:build():256] is repo sourced job
+2023-06-27 11:19:46,747 INFO    SenderThread:4183644 [job_builder.py:build():297] adding wandb-job metadata file
+2023-06-27 11:19:46,755 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 9
+2023-06-27 11:19:46,755 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:46,756 DEBUG   SenderThread:4183644 [sender.py:send():369] send: artifact
+2023-06-27 11:19:46,756 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 9
+2023-06-27 11:19:46,780 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: poll_exit
+2023-06-27 11:19:47,702 INFO    Thread-12 :4183644 [dir_watcher.py:_on_file_modified():289] file/dir modified: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/output.log
+2023-06-27 11:19:47,936 INFO    wandb-upload_0:4183644 [upload_job.py:push():88] Skipped uploading /home/francesco.pugnaloni/.local/share/wandb/artifacts/staging/tmpqkprj_78
+2023-06-27 11:19:48,298 INFO    wandb-upload_1:4183644 [upload_job.py:push():91] Uploaded file /home/francesco.pugnaloni/.local/share/wandb/artifacts/staging/tmp7y9lcuqt
+2023-06-27 11:19:49,594 INFO    SenderThread:4183644 [sender.py:send_artifact():1450] sent artifact job-https___github.com_frapugna_TableEmbeddingsWithGNNs.git_experiments.py - {'id': 'QXJ0aWZhY3Q6NDk5ODQ0NzE0', 'digest': 'd23aad7cd8c73e93618bcaed34aa0472', 'state': 'PENDING', 'aliases': [], 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjc4NjgwMDA0', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6NDk5MTA2Mjk2', 'versionIndex': 5}}, 'version': 'latest'}
+2023-06-27 11:19:49,594 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:49,594 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 9
+2023-06-27 11:19:49,594 INFO    SenderThread:4183644 [dir_watcher.py:finish():359] shutting down directory watcher
+2023-06-27 11:19:49,703 INFO    SenderThread:4183644 [dir_watcher.py:finish():389] scan: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files
+2023-06-27 11:19:49,704 INFO    SenderThread:4183644 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/config.yaml config.yaml
+2023-06-27 11:19:49,704 INFO    SenderThread:4183644 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/wandb-summary.json wandb-summary.json
+2023-06-27 11:19:49,705 INFO    SenderThread:4183644 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/requirements.txt requirements.txt
+2023-06-27 11:19:49,715 INFO    SenderThread:4183644 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/conda-environment.yaml conda-environment.yaml
+2023-06-27 11:19:49,722 INFO    SenderThread:4183644 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/wandb-metadata.json wandb-metadata.json
+2023-06-27 11:19:49,722 INFO    SenderThread:4183644 [dir_watcher.py:finish():403] scan save: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/output.log output.log
+2023-06-27 11:19:49,728 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 10
+2023-06-27 11:19:49,728 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: poll_exit
+2023-06-27 11:19:49,728 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:49,734 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 10
+2023-06-27 11:19:49,736 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:49,736 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 10
+2023-06-27 11:19:49,736 INFO    SenderThread:4183644 [file_pusher.py:finish():159] shutting down file pusher
+2023-06-27 11:19:50,170 INFO    wandb-upload_1:4183644 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/wandb-summary.json
+2023-06-27 11:19:50,230 INFO    wandb-upload_0:4183644 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/config.yaml
+2023-06-27 11:19:50,283 INFO    wandb-upload_2:4183644 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/requirements.txt
+2023-06-27 11:19:50,310 INFO    wandb-upload_3:4183644 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/conda-environment.yaml
+2023-06-27 11:19:50,333 INFO    wandb-upload_4:4183644 [upload_job.py:push():133] Uploaded file /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/files/output.log
+2023-06-27 11:19:50,534 INFO    Thread-11 (_thread_body):4183644 [sender.py:transition_state():602] send defer: 11
+2023-06-27 11:19:50,535 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:50,535 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 11
+2023-06-27 11:19:50,536 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:50,536 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 11
+2023-06-27 11:19:50,537 INFO    SenderThread:4183644 [file_pusher.py:join():164] waiting for file pusher
+2023-06-27 11:19:50,537 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 12
+2023-06-27 11:19:50,537 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:50,537 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 12
+2023-06-27 11:19:50,538 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:50,538 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 12
+2023-06-27 11:19:50,716 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 13
+2023-06-27 11:19:50,716 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:50,717 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 13
+2023-06-27 11:19:50,717 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:50,717 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 13
+2023-06-27 11:19:50,717 INFO    SenderThread:4183644 [sender.py:transition_state():602] send defer: 14
+2023-06-27 11:19:50,718 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: defer
+2023-06-27 11:19:50,719 DEBUG   SenderThread:4183644 [sender.py:send():369] send: final
+2023-06-27 11:19:50,719 INFO    HandlerThread:4183644 [handler.py:handle_request_defer():170] handle defer: 14
+2023-06-27 11:19:50,719 DEBUG   SenderThread:4183644 [sender.py:send():369] send: footer
+2023-06-27 11:19:50,719 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: defer
+2023-06-27 11:19:50,720 INFO    SenderThread:4183644 [sender.py:send_request_defer():598] handle sender defer: 14
+2023-06-27 11:19:50,721 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: poll_exit
+2023-06-27 11:19:50,722 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: poll_exit
+2023-06-27 11:19:50,723 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: server_info
+2023-06-27 11:19:50,723 DEBUG   SenderThread:4183644 [sender.py:send_request():396] send_request: server_info
+2023-06-27 11:19:50,727 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: get_summary
+2023-06-27 11:19:50,728 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: sampled_history
+2023-06-27 11:19:50,882 INFO    MainThread:4183644 [wandb_run.py:_footer_history_summary_info():3467] rendering history
+2023-06-27 11:19:50,882 INFO    MainThread:4183644 [wandb_run.py:_footer_history_summary_info():3499] rendering summary
+2023-06-27 11:19:50,882 INFO    MainThread:4183644 [wandb_run.py:_footer_sync_info():3426] logging synced files
+2023-06-27 11:19:50,883 DEBUG   HandlerThread:4183644 [handler.py:handle_request():144] handle_request: shutdown
+2023-06-27 11:19:50,883 INFO    HandlerThread:4183644 [handler.py:finish():854] shutting down handler
+2023-06-27 11:19:51,723 INFO    WriterThread:4183644 [datastore.py:close():298] close: /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230627_111926-3k935azj/run-3k935azj.wandb
+2023-06-27 11:19:51,881 INFO    SenderThread:4183644 [sender.py:finish():1526] shutting down sender
+2023-06-27 11:19:51,882 INFO    SenderThread:4183644 [file_pusher.py:finish():159] shutting down file pusher
+2023-06-27 11:19:51,882 INFO    SenderThread:4183644 [file_pusher.py:join():164] waiting for file pusher

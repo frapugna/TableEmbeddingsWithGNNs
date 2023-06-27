@@ -1,0 +1,14 @@
+
+Loading datasets, it could take some time....
+Traceback (most recent call last):
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/experiments.py", line 17, in <module>
+    run_GNNTE_experiment(**l[i])
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py", line 442, in run_GNNTE_experiment
+    train_test_pipeline(triples_path, graphs_path, checkpoint, out_channels, n_layers,
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py", line 173, in train_test_pipeline
+    all_data = load_test_training_stuff(triple_file, graph_file)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py", line 142, in load_test_training_stuff
+    with open(graph_file, 'rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/francesco.pugnaloni/wikipedia_tables/small_tables/10000_samples/graphs.pkl'

@@ -1,0 +1,60 @@
+wandb_version: 1
+
+dataset:
+  desc: null
+  value: /home/francesco.pugnaloni/wikipedia_tables/training_data/10000_samples
+batch_size:
+  desc: null
+  value: 64
+learning_rate:
+  desc: null
+  value: 0.001
+num_epochs:
+  desc: null
+  value: 30
+out_channels:
+  desc: null
+  value: 128
+n_layers:
+  desc: null
+  value: 3
+dropout:
+  desc: null
+  value: 0
+_wandb:
+  desc: null
+  value:
+    python_version: 3.11.3
+    cli_version: 0.15.4
+    framework: huggingface
+    huggingface_version: 4.29.2
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1687773702.698309
+    t:
+      1:
+      - 1
+      - 5
+      - 11
+      - 49
+      - 53
+      - 55
+      - 77
+      2:
+      - 1
+      - 5
+      - 11
+      - 49
+      - 53
+      - 55
+      - 77
+      3:
+      - 2
+      - 13
+      - 16
+      - 23
+      4: 3.11.3
+      5: 0.15.4
+      6: 4.29.2
+      8:
+      - 5

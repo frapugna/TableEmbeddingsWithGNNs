@@ -1,4 +1,3 @@
-from collections.abc import Sequence
 import torch
 from tqdm import tqdm
 from torch_geometric.nn.models import GIN
@@ -16,13 +15,16 @@ import random
 import time
 import torch.optim.lr_scheduler as lr_scheduler
 import wandb
+import warnings
+from my_constants import *
 
-def set_seed(seed: int) -> None:
+def set_seed() -> None:
     """This functions set the seeds for various libraries
 
     Args:
         seed (int): this number will be used as seed
     """
+    seed = SEED
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -67,15 +69,15 @@ def train_test_valid_split(df: pd.DataFrame, ttv_ratio: set=(0.8,0.1,0.1)) -> se
     Returns:
         set: a set of 3 elements containing the triple split of the dataset in (TRAIN, TEST, VALIDATE)
     """
-    train_data, test_valid_data = train_test_split(df, test_size=ttv_ratio[1]+ttv_ratio[2], random_state=42)
+    train_data, test_valid_data = train_test_split(df, test_size=ttv_ratio[1]+ttv_ratio[2], random_state=SEED)
     test_data, valid_data = train_test_split(   test_valid_data, 
                                                 test_size=ttv_ratio[2]/(ttv_ratio[1]+ttv_ratio[2]), 
-                                                random_state=42)
+                                                random_state=SEED)
     return train_data, test_data, valid_data
     
 
 class GNNTE(nn.Module):
-    def __init__(self, hidden_channels:int, num_layers:int, dropout: float=0, act: str="relu") -> None:
+    def __init__(self, hidden_channels: int=300, num_layers: int=3, dropout: float=0, act: str="relu", model_file: str=None) -> None:
         """_summary_
 
         Args:
@@ -83,14 +85,25 @@ class GNNTE(nn.Module):
             num_layers (int): number of layers of the network, every embedding will be generated using using his neighbours at distance num_layers
             dropout (float, optional): dropout probability for the weights. Defaults to 0.
             act (str, optional): The activation function between the layers. Defaults to "relu".
+            model_file (str, optional): this parameter can be used to load a pretrained model from a model_file
         """
         super(GNNTE,self).__init__()
-        self.hidden_channels = hidden_channels
-        self.num_layers = num_layers
-        self.dropout = dropout
-        self.act = act
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.model = GIN(-1,hidden_channels,num_layers, dropout=dropout, act=act).to(self.device)
+        if model_file != None:
+            state_dict = torch.load(model_file)
+            self.hidden_channels = state_dict['hidden_channels']
+            self.num_layers = state_dict['num_layers']
+            self.dropout = state_dict['dropout']
+            self.act = state_dict['act']
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            self.model = GIN(-1, self.hidden_channels, self.num_layers, dropout=dropout, act=act).to(self.device)
+            self.load_state_dict(state_dict['model_state_dict'])
+        else:
+            self.hidden_channels = hidden_channels
+            self.num_layers = num_layers
+            self.dropout = dropout
+            self.act = act
+            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            self.model = GIN(-1, hidden_channels, num_layers, dropout=dropout, act=act).to(self.device)
 
     def forward(self, b: Batch) -> torch.tensor:
         """Provided a batch of graphs as input their embeddings are provided in output
@@ -112,7 +125,9 @@ class GNNTE(nn.Module):
         return torch.cat(means, dim=0)
 
 def load_model(model_file: str, hidden_channels: int, num_layers: int, dropout: int, act: str) -> GNNTE:
-    """The model is loaded from a checkpoint file
+    """____DEPRECATED____
+
+    The model is loaded from a checkpoint file
 
     Args:
         model_file (str): path to the file containing the model's backup
@@ -124,6 +139,7 @@ def load_model(model_file: str, hidden_channels: int, num_layers: int, dropout: 
     Returns:
         GNNTE: an istance of the GNN generated from the backup file
     """
+    warnings.warn("Deprecated function, now it is in the model's constructor", category=DeprecationWarning)
     model = GNNTE(hidden_channels, num_layers, dropout=dropout, act=act)
     state_dict = torch.load(model_file)
     model.load_state_dict(state_dict['model_state_dict'])
@@ -146,7 +162,8 @@ def load_test_training_stuff(triple_file: str, graph_file: str) -> dict:
 
 def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidden_channels: int, num_layers: int,
                         ttv_ratio: set=(0.8,0.1,0.1), batch_size: int=64, lr: float=0.01, dropout: float=0, 
-                        num_epochs: int=100, weight_decay: float=0, act: str='relu',log_wandb: bool=False) -> GNNTE:
+                        num_epochs: int=100, weight_decay: float=0, act: str='relu', log_wandb: bool=False,
+                        step_size: int=5, gamma: float=0.1) -> GNNTE:
     """This function performs the full train-validate-test pipeline
 
     Args:
@@ -163,11 +180,13 @@ def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidd
         weight_decay (float, optional): NA. Defaults to 0.
         act (str, optional): the activation function used between the layers. Defaults to 'relu'.
         log_wandb (bool, optional): if True all the outputs of the experiments will be logged to wandb, an open session is necessary to avoid errors. Defaults to False.
+        step_size (int, optional): number of epochs to wait to update the learning rate. Defaults to 5.
+        gamma (float, optional): reduction factor of the learning rate. Defaults to 0.1
 
     Returns:
         GNNTE: the trained network
     """
-    set_seed(42)
+    set_seed()
     # Creazione 3 datasets
     print('Loading datasets, it could take some time....')
     all_data = load_test_training_stuff(triple_file, graph_file)
@@ -184,13 +203,15 @@ def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidd
 
     print('Training starts')
 
-    model = train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, device, model_file, weight_decay=weight_decay, log_wandb=log_wandb)
+    model = train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, device, model_file, 
+                  weight_decay=weight_decay, log_wandb=log_wandb, step_size=step_size, gamma=gamma)
     end = time.time()
     t_train=end-start
     print(f'T_train: {t_train}s')
 
     start = time.time()
-    mse = test(model, test_dataset, batch_size)
+    execution_insights = test(model, test_dataset, batch_size) 
+    mse = execution_insights['mse'] 
     end = time.time()
     t_test = end-start
     print(f'T_test: {t_test}s')
@@ -199,11 +220,14 @@ def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidd
         wandb.run.summary["T_train"] = t_train 
         wandb.run.summary["T_test"] = t_test
         wandb.run.summary["MSE"] = mse
+        wandb.run.summary["insights"] = execution_insights
 
-    return model, mse
+    execution_insights['model'] = model
+
+    return execution_insights
 
 def train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, device, model_file: str, 
-          shuffle: bool=False, num_workers: int=0, weight_decay: float=5e-4, log_wandb: bool=False) -> GNNTE:
+          shuffle: bool=False, num_workers: int=0, weight_decay: float=5e-4, log_wandb: bool=False, step_size: int=5, gamma: float=0.1) -> GNNTE:
     """This function execute the training operation
 
     Args:
@@ -219,6 +243,8 @@ def train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, devic
         num_workers (int, optional): NA. Defaults to 0.
         weight_decay (float, optional): NA. Defaults to 5e-4.
         log_wandb (bool, optional): if True all the outputs of the experiments will be logged to wandb, an open session is necessary to avoid errors. Defaults to False.
+        step_size (int, optional): number of epochs to wait to update the learning rate. Defaults to 5.
+        gamma (float, optional): reduction factor of the learning rate. Defaults to 0.1
 
     Returns:
         GNNTE: the trained network
@@ -230,7 +256,7 @@ def train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, devic
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
 
     # scheduler
-    #scheduler = lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
+    scheduler = lr_scheduler.StepLR(optimizer, step_size=step_size, gamma=gamma)
 
     # loss
     loss_criterion = nn.MSELoss()
@@ -254,12 +280,18 @@ def train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, devic
             # save_model_checkpoint
             checkpoint = {
                 'model_state_dict': model.state_dict(),
+                'hidden_channels' : model.hidden_channels,
+                'num_layers' : model.num_layers,
+                'dropout' : model.dropout,
+                'act' : model.act,
                 'optimizer_state_dict': optimizer.state_dict(),
                 'epoch': epoch
             }
             torch.save(checkpoint, model_file)
+        scheduler.step()
 
-    return load_model(model_file, model.hidden_channels, model.num_layers, model.dropout, model.act)
+    return GNNTE(model_file=model_file)
+    # return load_model(model_file, model.hidden_channels, model.num_layers, model.dropout, model.act)
 
 def train_epoch(model: GNNTE, train_dataloader: DataLoader, optimizer: torch.optim.Optimizer, criterion: nn.MSELoss, device: str) -> torch.Tensor:
     """Operations to perform in every training epoch
@@ -297,7 +329,6 @@ def train_epoch(model: GNNTE, train_dataloader: DataLoader, optimizer: torch.opt
 
         # Update parameters and the learning rate
         optimizer.step()
-        #scheduler.step()
 
     # # Calculate the average loss over the entire training data
     avg_train_loss = total_loss / len(train_dataloader)
@@ -368,7 +399,13 @@ def test(model: GNNTE, test_dataset: GraphTriplesDataset, batch_size: int=64,
         device
     )
     mse = F.mse_loss(y_pred, y_true.to(device))
-    return mse
+    abs_diff_tensor = torch.abs(y_pred - y_true.to(device))
+    mae = torch.mean(abs_diff_tensor)
+    variance = torch.var(abs_diff_tensor)
+    min_ae = torch.min(abs_diff_tensor)
+    max_ae = torch.max(abs_diff_tensor)
+
+    return {'mse':mse, 'mae':mae, 'variance':variance, 'min_ae':min_ae, 'max_ae':max_ae, 'abs_diff_tensor':abs_diff_tensor}
 
 def model_inference(model: GNNTE, data_loader: DataLoader, device: str) -> set:
     """Genertion of 2 sets of labels (predicted and real)
@@ -404,7 +441,8 @@ def model_inference(model: GNNTE, data_loader: DataLoader, device: str) -> set:
     return y_pred, y_true
 
 def run_GNNTE_experiment(project_name: str, dataset: str, lr: float, batch_size: int,
-                         num_epochs: int, out_channels: int, n_layers: int, dropout: float
+                         num_epochs: int, out_channels: int, n_layers: int, dropout: float,
+                         n_sample:str, weight_decay: float, step_size: int, gamma: float
                          ) -> None:
     """Utility function to run experiments that will be logged in wandb
 
@@ -417,8 +455,13 @@ def run_GNNTE_experiment(project_name: str, dataset: str, lr: float, batch_size:
         out_channels (int): size of the embeddings
         n_layers (int): number of layers
         dropout (float): dropout probability
+        n_sample (str): identifier of the dataset
+        weight_decay (float): an L2 penalty
+        step_size (int, optional): number of epochs to wait to update the learning rate. Defaults to 5.
+        gamma (float, optional): reduction factor of the learning rate. Defaults to 0.1
+
     """
-    name = f"{batch_size}_{lr}_{num_epochs}_{out_channels}_{n_layers}_{dropout}"
+    name = f"{n_sample}_{batch_size}_{lr}_{num_epochs}_{out_channels}_{n_layers}_{dropout}_{weight_decay}_{step_size}_{gamma}"
     # start a new wandb run to track this script
     wandb.init(
         # set the wandb project where this run will be logged
@@ -426,13 +469,15 @@ def run_GNNTE_experiment(project_name: str, dataset: str, lr: float, batch_size:
         name=name,
         # track hyperparameters and run metadata
         config={
-            "dataset":dataset,
-            "batch_size":batch_size,
+            "dataset": dataset,
+            "batch_size": batch_size,
             "learning_rate": lr,
             "num_epochs": num_epochs,
             "out_channels": out_channels,
             "n_layers": n_layers,
-            "dropout": dropout
+            "dropout": dropout,
+            "step_size": step_size,
+            "gamma": gamma
         }
     )
     triples_path = dataset+"/samples.csv"
@@ -440,10 +485,10 @@ def run_GNNTE_experiment(project_name: str, dataset: str, lr: float, batch_size:
     checkpoint = dataset+f"/{name}.pth"
 
     train_test_pipeline(triples_path, graphs_path, checkpoint, out_channels, n_layers, 
-                        num_epochs=num_epochs, batch_size=batch_size, lr=lr, dropout=dropout, log_wandb=True)
+                        num_epochs=num_epochs, batch_size=batch_size, lr=lr, dropout=dropout, log_wandb=True,
+                        weight_decay=weight_decay, step_size=step_size, gamma=gamma)
         
     wandb.finish()
-
 
 if __name__ == "__main__":
     name = 'GNNTE'
@@ -460,5 +505,3 @@ if __name__ == "__main__":
 
     train_test_pipeline(triples_path, graphs_path, checkpoint, out_channels, n_layers, 
         num_epochs=num_epochs, batch_size=batch_size, lr=lr, dropout=dropout, log_wandb=False)
-
-    print('ok')
