@@ -1,6 +1,6 @@
 import torch
 from tqdm import tqdm
-from torch_geometric.nn.models import GIN
+from torch_geometric.nn.models import GIN, GAT
 import pickle
 import pandas as pd
 from graph import *
@@ -17,6 +17,7 @@ import torch.optim.lr_scheduler as lr_scheduler
 import wandb
 import warnings
 from my_constants import *
+from torch_geometric.nn import global_mean_pool
 
 def set_seed() -> None:
     """This functions set the seeds for various libraries
@@ -77,7 +78,8 @@ def train_test_valid_split(df: pd.DataFrame, ttv_ratio: set=(0.8,0.1,0.1)) -> se
     
 
 class GNNTE(nn.Module):
-    def __init__(self, hidden_channels: int=300, num_layers: int=3, dropout: float=0, act: str="relu", model_file: str=None) -> None:
+    def __init__(self, hidden_channels: int=300, num_layers: int=3, dropout: float=0, act: str="relu", 
+                 gnn_type: str='GIN', model_file: str=None) -> None:
         """_summary_
 
         Args:
@@ -85,6 +87,7 @@ class GNNTE(nn.Module):
             num_layers (int): number of layers of the network, every embedding will be generated using using his neighbours at distance num_layers
             dropout (float, optional): dropout probability for the weights. Defaults to 0.
             act (str, optional): The activation function between the layers. Defaults to "relu".
+            gnn_type (str): the gnn to use, accepted 'GIN' and 'GAT'. Defaults to 'GIN'
             model_file (str, optional): this parameter can be used to load a pretrained model from a model_file
         """
         super(GNNTE,self).__init__()
@@ -94,16 +97,25 @@ class GNNTE(nn.Module):
             self.num_layers = state_dict['num_layers']
             self.dropout = state_dict['dropout']
             self.act = state_dict['act']
+            self.gnn_type = state_dict['gnn_type']
             self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-            self.model = GIN(-1, self.hidden_channels, self.num_layers, dropout=dropout, act=act).to(self.device)
+            if self.gnn_type == 'GIN':
+                self.model = GIN(-1, self.hidden_channels, self.num_layers, dropout=dropout, act=act).to(self.device)
+            elif self.gnn_type == 'GAT':
+                self.model = GAT(-1, self.hidden_channels, self.num_layers, dropout=dropout, act=act).to(self.device)
+
             self.load_state_dict(state_dict['model_state_dict'])
         else:
             self.hidden_channels = hidden_channels
             self.num_layers = num_layers
             self.dropout = dropout
             self.act = act
+            self.gnn_type = gnn_type
             self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-            self.model = GIN(-1, hidden_channels, num_layers, dropout=dropout, act=act).to(self.device)
+            if self.gnn_type == 'GIN':
+                self.model = GIN(-1, hidden_channels, num_layers, dropout=dropout, act=act).to(self.device)
+            elif self.gnn_type == 'GAT':
+                self.model = GAT(-1, hidden_channels, num_layers, dropout=dropout, act=act).to(self.device)
 
     def forward(self, b: Batch) -> torch.tensor:
         """Provided a batch of graphs as input their embeddings are provided in output
@@ -115,14 +127,15 @@ class GNNTE(nn.Module):
             torch.tensor: a tensor composed by <num_graphs_int_the_batch> rows, every row will be the embedding of the corresponding graph
         """
         #calcolo lista lunghezze
-        intervals = [0]
-        for i in range(b.num_graphs):
-            intervals.append(b[i]['x'].shape[0]+intervals[-1])
+        # intervals = [0]
+        # for i in range(b.num_graphs):
+        #     intervals.append(b[i]['x'].shape[0]+intervals[-1])
         #gin
         out_gin = self.model(b['x'], b['edge_index'])
         #medie
-        means = [torch.mean(out_gin[intervals[i]:intervals[i+1]][:], dim=0).unsqueeze(dim=0) for i in range(b.num_graphs)]
-        return torch.cat(means, dim=0)
+        # means = [torch.mean(out_gin[intervals[i]:intervals[i+1]][:], dim=0).unsqueeze(dim=0) for i in range(b.num_graphs)]
+        # return torch.cat(means, dim=0)
+        return global_mean_pool(out_gin, b.batch)
 
 def load_model(model_file: str, hidden_channels: int, num_layers: int, dropout: int, act: str) -> GNNTE:
     """____DEPRECATED____
@@ -163,7 +176,7 @@ def load_test_training_stuff(triple_file: str, graph_file: str) -> dict:
 def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidden_channels: int, num_layers: int,
                         ttv_ratio: set=(0.8,0.1,0.1), batch_size: int=64, lr: float=0.01, dropout: float=0, 
                         num_epochs: int=100, weight_decay: float=0, act: str='relu', log_wandb: bool=False,
-                        step_size: int=5, gamma: float=0.1) -> GNNTE:
+                        step_size: int=5, gamma: float=0.1, gnn_type: str='GIN', compute_bins_stats: bool=False) -> GNNTE:
     """This function performs the full train-validate-test pipeline
 
     Args:
@@ -182,6 +195,8 @@ def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidd
         log_wandb (bool, optional): if True all the outputs of the experiments will be logged to wandb, an open session is necessary to avoid errors. Defaults to False.
         step_size (int, optional): number of epochs to wait to update the learning rate. Defaults to 5.
         gamma (float, optional): reduction factor of the learning rate. Defaults to 0.1
+        gnn_type (str): the gnn to use. Defaults to 'GIN'
+        compute_bins_stats (bool): set to true to compute stats about intervals of table overlaps. Default to False
 
     Returns:
         GNNTE: the trained network
@@ -198,7 +213,7 @@ def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidd
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    model = GNNTE(hidden_channels, num_layers, dropout=dropout, act=act)
+    model = GNNTE(hidden_channels, num_layers, dropout=dropout, act=act, gnn_type=gnn_type)
     start = time.time()
 
     print('Training starts')
@@ -210,19 +225,27 @@ def train_test_pipeline(triple_file: str, graph_file: str, model_file: str, hidd
     print(f'T_train: {t_train}s')
 
     start = time.time()
-    execution_insights = test(model, test_dataset, batch_size) 
-    mse = execution_insights['mse'] 
+    execution_insights_test = test(model, test_dataset, batch_size) 
+    mse = execution_insights_test['mse'] 
     end = time.time()
     t_test = end-start
     print(f'T_test: {t_test}s')
     print(f'MSE: {mse}')
+
+    print('Generating tests for bags')
+
+    execution_insights = {'test':execution_insights_test}
+    
+    if compute_bins_stats:
+        execution_insights_bins = test_bins(model, test_dataset, batch_size)
+        execution_insights['bins'] = execution_insights_bins
     if log_wandb:
         wandb.run.summary["T_train"] = t_train 
         wandb.run.summary["T_test"] = t_test
         wandb.run.summary["MSE"] = mse
         wandb.run.summary["insights"] = execution_insights
 
-    execution_insights['model'] = model
+    execution_insights['test']['model'] = model
 
     return execution_insights
 
@@ -284,6 +307,7 @@ def train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, devic
                 'num_layers' : model.num_layers,
                 'dropout' : model.dropout,
                 'act' : model.act,
+                'gnn_type' : model.gnn_type,
                 'optimizer_state_dict': optimizer.state_dict(),
                 'epoch': epoch
             }
@@ -369,6 +393,50 @@ def eval_epoch(model: GNNTE, valid_dataloader: DataLoader, criterion: nn.MSELoss
 
     return avg_loss
 
+def test_bins(model: GNNTE, test_dataset: GraphTriplesDataset, batch_size: int=64, 
+         num_workers: int=0, shuffle: bool=False, granularity: float=0.1
+         ) -> dict:
+    """To compute testing stats in defined overlap intervals
+
+    Args:
+        model (GNNTE): the model to test
+        test_dataset (GraphTriplesDataset): the full test dataset
+        batch_size (int, optional): size of batches. Defaults to 64.
+        num_workers (int, optional): NA. Defaults to 0.
+        shuffle (bool, optional): to shuffle the dataset. Defaults to False.
+        granularity (float, optional): granularity of the bags. Defaults to 0.1.
+
+    Returns:
+        dict: dictionary containing the following metrics: mse, mae, variance, min_ae, abs_diff_tensor 
+    """
+    stats_list = {}
+    left = 0
+    right = granularity
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    graphs = test_dataset.graphs
+    samples = test_dataset.triples
+    count = 0
+    while right <= 1:
+        tmp = samples[samples['table_overlap'] >= left][:]
+        tmp = tmp[tmp['table_overlap'] < right][:]
+        eval_loader = DataLoader(GraphTriplesDataset(tmp, graphs), 
+                                batch_size=batch_size,  
+                                num_workers=num_workers, 
+                                shuffle=shuffle)
+        y_pred, y_true = model_inference(
+            model,
+            eval_loader,
+            device
+        )
+        
+        stats_list[str(count)] = compute_metrics(y_pred, y_true)
+        
+        count += 1
+        left += granularity
+        right += granularity
+
+    return stats_list
+
 def test(model: GNNTE, test_dataset: GraphTriplesDataset, batch_size: int=64, 
          num_workers: int=0, shuffle: bool=False) -> torch.Tensor:
     """Perform the testing operation
@@ -398,13 +466,25 @@ def test(model: GNNTE, test_dataset: GraphTriplesDataset, batch_size: int=64,
         eval_loader,
         device
     )
+    return compute_metrics(y_pred, y_true)
+
+def compute_metrics(y_pred: torch.Tensor, y_true: torch.Tensor) -> dict:
+    """Function to compute the necessary evaluation metrics
+
+    Args:
+        y_pred (torch.Tensor): prediction tensor
+        y_true (torch.Tensor): true label tensor
+
+    Returns:
+        dict: contains the following metrics: mse, mae, variance, min_ae, abs_diff_tensor 
+    """
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     mse = F.mse_loss(y_pred, y_true.to(device))
     abs_diff_tensor = torch.abs(y_pred - y_true.to(device))
     mae = torch.mean(abs_diff_tensor)
     variance = torch.var(abs_diff_tensor)
     min_ae = torch.min(abs_diff_tensor)
     max_ae = torch.max(abs_diff_tensor)
-
     return {'mse':mse, 'mae':mae, 'variance':variance, 'min_ae':min_ae, 'max_ae':max_ae, 'abs_diff_tensor':abs_diff_tensor}
 
 def model_inference(model: GNNTE, data_loader: DataLoader, device: str) -> set:
@@ -442,8 +522,8 @@ def model_inference(model: GNNTE, data_loader: DataLoader, device: str) -> set:
 
 def run_GNNTE_experiment(project_name: str, dataset: str, lr: float, batch_size: int,
                          num_epochs: int, out_channels: int, n_layers: int, dropout: float,
-                         n_sample:str, weight_decay: float, step_size: int, gamma: float
-                         ) -> None:
+                         n_sample:str, weight_decay: float, step_size: int, gamma: float,
+                         gnn_type: str) -> None:
     """Utility function to run experiments that will be logged in wandb
 
     Args:
@@ -457,11 +537,12 @@ def run_GNNTE_experiment(project_name: str, dataset: str, lr: float, batch_size:
         dropout (float): dropout probability
         n_sample (str): identifier of the dataset
         weight_decay (float): an L2 penalty
-        step_size (int, optional): number of epochs to wait to update the learning rate. Defaults to 5.
-        gamma (float, optional): reduction factor of the learning rate. Defaults to 0.1
+        step_size (int): number of epochs to wait to update the learning rate
+        gamma (float): reduction factor of the learning rate
+        gnn_type (str): the gnn to use, accepted 'GIN' and 'GAT'
 
     """
-    name = f"{n_sample}_{batch_size}_{lr}_{num_epochs}_{out_channels}_{n_layers}_{dropout}_{weight_decay}_{step_size}_{gamma}"
+    name = f"{gnn_type}_{n_sample}_{batch_size}_{lr}_{num_epochs}_{out_channels}_{n_layers}_{dropout}_{weight_decay}_{step_size}_{gamma}"
     # start a new wandb run to track this script
     wandb.init(
         # set the wandb project where this run will be logged
@@ -469,6 +550,7 @@ def run_GNNTE_experiment(project_name: str, dataset: str, lr: float, batch_size:
         name=name,
         # track hyperparameters and run metadata
         config={
+            "gnn_type":gnn_type,
             "dataset": dataset,
             "batch_size": batch_size,
             "learning_rate": lr,
@@ -486,22 +568,23 @@ def run_GNNTE_experiment(project_name: str, dataset: str, lr: float, batch_size:
 
     train_test_pipeline(triples_path, graphs_path, checkpoint, out_channels, n_layers, 
                         num_epochs=num_epochs, batch_size=batch_size, lr=lr, dropout=dropout, log_wandb=True,
-                        weight_decay=weight_decay, step_size=step_size, gamma=gamma)
+                        weight_decay=weight_decay, step_size=step_size, gamma=gamma, gnn_type=gnn_type, compute_bins_stats=True)
         
     wandb.finish()
 
 if __name__ == "__main__":
     name = 'GNNTE'
-    dataset = "/home/francesco.pugnaloni/wikipedia_tables/training_data/millions_of_tables"
+    dataset = "/dati/home/francesco.pugnaloni/wikipedia_tables/training_data/1000_samples"
     lr = 0.001
     batch_size = 128
-    num_epochs = 50
-    out_channels = 128
+    num_epochs = 2
+    out_channels = 5
     n_layers = 3
     dropout = 0
     triples_path = dataset+"/samples.csv"
     graphs_path = dataset+"/graphs.pkl"
     checkpoint = dataset+f"/{name}.pth"
 
-    train_test_pipeline(triples_path, graphs_path, checkpoint, out_channels, n_layers, 
-        num_epochs=num_epochs, batch_size=batch_size, lr=lr, dropout=dropout, log_wandb=False)
+    t = train_test_pipeline(triples_path, graphs_path, checkpoint, out_channels, n_layers, 
+        num_epochs=num_epochs, batch_size=batch_size, lr=lr, dropout=dropout, gnn_type='GAT',log_wandb=False, compute_bins_stats=True)
+    print('Finish')

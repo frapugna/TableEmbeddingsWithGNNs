@@ -9,7 +9,7 @@ from graph import Graph
 from node_embeddings import *
 
 
-def decompress_pickle(file:str)->list:
+def decompress_pickle(file: str) -> list:
     """Function to load a pickle file that is also compressed using bz2
 
     Args:
@@ -22,7 +22,7 @@ def decompress_pickle(file:str)->list:
     data = cPickle.load(data)
     return data
 
-def compute_table_ids(triples_dataset_path:str, output_file:str)->set:
+def compute_table_ids(triples_dataset_path: str, output_file: str) -> set:
     """Provided a triple file the id of the table that appear in the triples are provided
 
     Args:
@@ -43,7 +43,7 @@ def compute_table_ids(triples_dataset_path:str, output_file:str)->set:
         pickle.dump(tables_indexes, f)
     return tables_indexes
 
-def get_tables_ids(file:str)->set:
+def get_tables_ids(file: str) -> set:
     """Function to load the indexes set
 
     Args:
@@ -55,7 +55,7 @@ def get_tables_ids(file:str)->set:
     with open(file, 'rb') as f:
         return pickle.load(f)
 
-def process_pickle(file:str, index_set:set)->dict:
+def process_pickle(file: str, index_set: set) -> dict:
     """Function to generate from a pickle file and an index set a table dictionary 
 
     Args:
@@ -75,7 +75,7 @@ def process_pickle(file:str, index_set:set)->dict:
                 table_dictionary[t['_id']] = pd.DataFrame()
     return table_dictionary
 
-def process_all_pickles(directory_path:str, index_path:str, out_path:str)->dict:
+def process_all_pickles(directory_path: str, index_path: str, out_path: str) -> dict:
     """Function to process multiple pickle files
 
     Args:
@@ -102,7 +102,7 @@ def process_all_pickles(directory_path:str, index_path:str, out_path:str)->dict:
 
     return out
 
-def get_empty_tables_ids(dlist:dict)->list:
+def get_empty_tables_ids(dlist: dict) -> list:
     """Function that provided a dictionary of tables returns th ids of the empty ones
 
     Args:
@@ -121,7 +121,7 @@ def get_empty_tables_ids(dlist:dict)->list:
     print(f'Number of empty tables = {count_none}')
     return out
 
-def drop_small_tables(table_file:str, old_triple_file:str,new_triple_file_out:str, dim_min:int=3)->pd.DataFrame:
+def drop_small_tables(table_file: str, old_triple_file: str,new_triple_file_out: str, dim_min: int=3) -> pd.DataFrame:
     """Function to generate a new table dictionary from a rpovided one dropping all the "small tables"
 
     Args:
@@ -158,7 +158,7 @@ def drop_small_tables(table_file:str, old_triple_file:str,new_triple_file_out:st
     return out
     
 
-def generate_graph_dictionary(table_dict_path:str, out_path:str)->dict:
+def generate_graph_dictionary(table_dict_path: str, out_path: str) -> dict:
     """Generate a graph dictionary from a table dictionary
 
     Args:

@@ -1,0 +1,58 @@
+
+Loading datasets, it could take some time....
+Training starts
+
+
+
+
+
+
+
+
+
+
+ 20%|████████████████▌                                                                  | 10/50 [01:04<04:16,  6.41s/it]
+Traceback (most recent call last):
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/experimentsA.py", line 23, in <module>
+    run_GNNTE_experiment(**l[i])
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py", line 569, in run_GNNTE_experiment
+    train_test_pipeline(triples_path, graphs_path, checkpoint, out_channels, n_layers,
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py", line 221, in train_test_pipeline
+    model = train(model, train_dataset, valid_dataset, batch_size, lr, num_epochs, device, model_file,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py", line 291, in train
+    train_loss = train_epoch(model, train_dataloader, optimizer, loss_criterion, device)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/GNNTE.py", line 337, in train_epoch
+    for batch in train_dataloader:
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 633, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch/utils/data/dataloader.py", line 677, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    return self.collate_fn(data)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch_geometric/loader/dataloader.py", line 35, in __call__
+    return [self(s) for s in zip(*batch)]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch_geometric/loader/dataloader.py", line 35, in <listcomp>
+    return [self(s) for s in zip(*batch)]
+            ^^^^^^^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch_geometric/loader/dataloader.py", line 20, in __call__
+    return Batch.from_data_list(batch, self.follow_batch,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch_geometric/data/batch.py", line 76, in from_data_list
+    batch, slice_dict, inc_dict = collate(
+                                  ^^^^^^^^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch_geometric/data/collate.py", line 87, in collate
+    value, slices, incs = _collate(attr, values, data_list, stores,
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch_geometric/data/collate.py", line 138, in _collate
+    values = [
+             ^
+  File "/home/francesco.pugnaloni/anaconda3/envs/HPIPyG/lib/python3.11/site-packages/torch_geometric/data/collate.py", line 139, in <listcomp>
+    value + inc.to(value.device)
+            ^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

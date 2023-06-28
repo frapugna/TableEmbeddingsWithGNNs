@@ -163,6 +163,7 @@ def generate_full_triple_dataset(path_base: str, path_hybrid: str, path_out: str
         df_hybrid = pd.read_csv(path_hybrid)
     except:
         raise Exception('Wrong input file path')   
+    
     print('Input file base processed')
     df_hybrid['table_overlap'] = df_hybrid['o_a'] / df_hybrid[['r_a','s_a']].min(axis=1)
     df_hybrid = df_hybrid[['r_id','s_id','table_overlap','algo']]

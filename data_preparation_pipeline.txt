@@ -1,0 +1,12 @@
+re_generate_triple_dataset:
+* generate_full_triple_dataset
+    - load clean dataset
+    - load hybrid approx dataset
+    - deduplicate hybrid
+    - concat base and hybrid
+* rebalance_triple_file (drop table_overlaps=1)
+* drop_small_tables (use the dataset without ones)
+Now you have the millions of rows dataset
+* use generate_small_dataset to obtain the 10k dataset and company
+* update with new overlaps (using new table)
+* regenerate small datasets

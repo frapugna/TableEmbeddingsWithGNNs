@@ -1,0 +1,27 @@
+2023-06-28 17:47:27,909 INFO    MainThread:1438804 [wandb_setup.py:_flush():76] Current SDK version is 0.15.4
+2023-06-28 17:47:27,909 INFO    MainThread:1438804 [wandb_setup.py:_flush():76] Configure stats pid to 1438804
+2023-06-28 17:47:27,909 INFO    MainThread:1438804 [wandb_setup.py:_flush():76] Loading settings from /home/francesco.pugnaloni/.config/wandb/settings
+2023-06-28 17:47:27,909 INFO    MainThread:1438804 [wandb_setup.py:_flush():76] Loading settings from /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/settings
+2023-06-28 17:47:27,910 INFO    MainThread:1438804 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2023-06-28 17:47:27,910 INFO    MainThread:1438804 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-06-28 17:47:27,910 INFO    MainThread:1438804 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'experimentsA.py', 'program': '/dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/experimentsA.py'}
+2023-06-28 17:47:27,910 INFO    MainThread:1438804 [wandb_init.py:_log_setup():507] Logging user logs to /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230628_174727-8fnu43vi/logs/debug.log
+2023-06-28 17:47:27,910 INFO    MainThread:1438804 [wandb_init.py:_log_setup():508] Logging internal logs to /dati/home/francesco.pugnaloni/TableEmbeddingsWithGNNs/wandb/run-20230628_174727-8fnu43vi/logs/debug-internal.log
+2023-06-28 17:47:27,910 INFO    MainThread:1438804 [wandb_init.py:init():547] calling init triggers
+2023-06-28 17:47:27,911 INFO    MainThread:1438804 [wandb_init.py:init():554] wandb.init called with sweep_config: {}
+config: {'gnn_type': 'GAT', 'dataset': '/home/francesco.pugnaloni/wikipedia_tables/training_data/100000_samples', 'batch_size': 128, 'learning_rate': 0.001, 'num_epochs': 30, 'out_channels': 300, 'n_layers': 3, 'dropout': 0.1, 'step_size': 5, 'gamma': 0.5}
+2023-06-28 17:47:27,911 INFO    MainThread:1438804 [wandb_init.py:init():596] starting backend
+2023-06-28 17:47:27,911 INFO    MainThread:1438804 [wandb_init.py:init():600] setting up manager
+2023-06-28 17:47:27,914 INFO    MainThread:1438804 [backend.py:_multiprocessing_setup():106] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2023-06-28 17:47:27,915 INFO    MainThread:1438804 [wandb_init.py:init():606] backend started and connected
+2023-06-28 17:47:27,917 INFO    MainThread:1438804 [wandb_init.py:init():703] updated telemetry
+2023-06-28 17:47:27,925 INFO    MainThread:1438804 [wandb_init.py:init():736] communicating run to backend with 60.0 second timeout
+2023-06-28 17:47:28,373 INFO    MainThread:1438804 [wandb_run.py:_on_init():2176] communicating current version
+2023-06-28 17:47:28,450 INFO    MainThread:1438804 [wandb_run.py:_on_init():2185] got version response 
+2023-06-28 17:47:28,450 INFO    MainThread:1438804 [wandb_init.py:init():787] starting run threads in backend
+2023-06-28 17:47:32,867 INFO    MainThread:1438804 [wandb_run.py:_console_start():2155] atexit reg
+2023-06-28 17:47:32,868 INFO    MainThread:1438804 [wandb_run.py:_redirect():2010] redirect: 3
+2023-06-28 17:47:32,868 INFO    MainThread:1438804 [wandb_run.py:_redirect():2075] Wrapping output streams.
+2023-06-28 17:47:32,868 INFO    MainThread:1438804 [wandb_run.py:_redirect():2100] Redirects installed.
+2023-06-28 17:47:32,869 INFO    MainThread:1438804 [wandb_init.py:init():828] run started, returning control to user process
+2023-06-28 17:54:09,445 WARNING MsgRouterThr:1438804 [router.py:message_loop():77] message_loop has been closed
